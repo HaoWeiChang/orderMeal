@@ -3,7 +3,6 @@ import { createStore } from "vuex";
 
 const user = {
   state: {
-    isLogin: false,
     caches: {},
   },
   mutations: {
@@ -11,8 +10,7 @@ const user = {
       const { id, name, isLogin } = caches;
       if (id && name && isLogin) {
         state.isLogin = isLogin;
-        state.caches.id = id;
-        state.caches.name = name;
+        state.caches = caches;
         localStorage.setItem("user", JSON.stringify(state.caches));
       } else {
         state.isLogin = false;
@@ -21,13 +19,19 @@ const user = {
       }
     },
   },
-  getters: {},
+  getters: {
+    checkLogin: (state) => {
+      state.caches = JSON.parse(localStorage.getItem("user")) ?? {};
+      return state.caches;
+    },
+  },
   actions: {
     async Login({ commit }, payload) {
-      await axios
-        .post("http://localhost:3000/api/auth/Login", payload)
-        .then((res) => commit("updateState", res.data))
-        .catch((error) => console.log(error));
+      const res = await axios.post(
+        "http://localhost:3000/api/auth/Login",
+        payload
+      );
+      commit("updateState", res.data);
     },
   },
 };

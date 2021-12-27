@@ -2,13 +2,13 @@
   <div class="container">
     <a-form
       layout="horizontal"
-      :model="formState"
+      :model="payload"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
       @submit="Login"
     >
       <a-form-item ref="user" label="帳號" name="user">
-        <a-input v-model:value="formState.email" placeholder="Account">
+        <a-input v-model:value="payload.email" placeholder="Account">
           <template #prefix
             ><UserOutlined style="color: rgba(0, 0, 0, 0.25)"
           /></template>
@@ -16,7 +16,7 @@
       </a-form-item>
       <a-form-item ref="password" label="密碼" name="password">
         <a-input
-          v-model:value="formState.password"
+          v-model:value="payload.password"
           type="password"
           placeholder="Password"
         >
@@ -29,7 +29,7 @@
         <a-button
           type="primary"
           html-type="submit"
-          :disabled="formState.user === '' || formState.password === ''"
+          :disabled="payload.user === '' || payload.password === ''"
         >
           Log in
         </a-button>
@@ -40,19 +40,21 @@
 <script>
 import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import { reactive } from "vue";
-import axios from "axios";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 export default {
-  name: "Login",
   setup() {
-    const formState = reactive({
+    const router = useRouter();
+    const store = useStore();
+    const payload = reactive({
       email: "",
       password: "",
     });
     const Login = async () => {
-      await axios.post("http://localhost:3000/api/auth/login", formState);
+      await store.dispatch("Login", payload).then(() => router.replace("/"));
     };
     return {
-      formState,
+      payload,
       Login,
       labelCol: {
         span: 4,

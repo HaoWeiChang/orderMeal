@@ -2,25 +2,28 @@
   <router-view />
 </template>
 
-<style>
-/* #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-} */
+<script>
+import axios from "axios";
+import { useRouter } from "vue-router";
+const router = useRouter();
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          alert(error.response.data.message);
+          break;
+        case 403:
+          router.replace("/Login");
+          break;
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
-/* #nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-} */
-</style>
+export default {
+  setup() {},
+};
+</script>
