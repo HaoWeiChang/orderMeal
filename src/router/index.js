@@ -29,15 +29,15 @@ router.beforeEach(async (to, from, next) => {
     next();
     return;
   }
-  if (to.path === "/Login" && localStorage.getItem("user")) {
-    const isLogin = await store.getters.loginState;
+  const isLogin = await store.dispatch("user/LoginState").then((res) => res);
+  if (to.path === "/login" && localStorage.getItem("user")) {
     if (isLogin) {
       next("/");
       return;
     }
   }
-  if (to.path !== "/Login") {
-    next("/Login");
+  if (to.path !== "/login" && !isLogin) {
+    next("/login");
     return;
   }
   next();

@@ -39,7 +39,9 @@ export default {
     const store = useStore();
     const router = useRouter();
     const Logout = () => {
-      store.dispatch("Logout").then(() => router.replace("/Login"));
+      store.dispatch("user/Logout").then(() => {
+        router.replace("/login");
+      });
     };
     return {
       Logout,

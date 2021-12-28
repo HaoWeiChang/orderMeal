@@ -50,7 +50,9 @@ export default {
       password: "",
     });
     const Login = async () => {
-      await store.dispatch("Login", payload).then(() => router.replace("/"));
+      await store.dispatch("user/Login", payload).then(() => {
+        router.replace("/");
+      });
     };
     return {
       payload,

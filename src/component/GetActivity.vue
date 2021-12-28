@@ -55,11 +55,11 @@ export default defineComponent({
       },
     ];
     const dataSource = ref([]);
-    const { id } = store.getters.userData;
+    const { id } = store.getters["user/userData"];
     const userID = id;
     onBeforeMount(async () => {
-      await store.dispatch("fetchActivity");
-      dataSource.value = store.getters.GetActivityList;
+      await store.dispatch("activity/fetchActivity");
+      dataSource.value = store.getters["activity/GetActivityList"];
     });
     const count = computed(() => dataSource.value.length + 1);
     const editableData = reactive({});
