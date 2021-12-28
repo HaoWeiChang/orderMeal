@@ -5,7 +5,6 @@
       :model="payload"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      @submit="Login"
     >
       <a-form-item ref="user" label="帳號" name="user">
         <a-input v-model:value="payload.email" placeholder="Account">
@@ -28,7 +27,7 @@
       <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button
           type="primary"
-          html-type="submit"
+          @click="Login"
           :disabled="payload.user === '' || payload.password === ''"
         >
           Log in

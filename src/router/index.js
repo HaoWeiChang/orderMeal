@@ -8,9 +8,14 @@ const routes = [
     component: Home,
   },
   {
-    path: "/Login",
+    path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: () => import("../views/About.vue"),
   },
 ];
 
@@ -19,21 +24,21 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  const  isLogin  = store.getters.checkLogin;
-  if (to.path === "/Login") {
+router.beforeEach(async (to, from, next) => {
+  if (to.path === "/") {
+    next();
+    return;
+  }
+  if (to.path === "/Login" && localStorage.getItem("user")) {
+    const isLogin = await store.getters.loginState;
     if (isLogin) {
       next("/");
       return;
     }
-    if (to.path !== "/Login") {
-      next("/Login");
-      return;
-    }
-    if (to.path === "/" && isLogin) {
-      next("/");
-      return;
-    }
+  }
+  if (to.path !== "/Login") {
+    next("/Login");
+    return;
   }
   next();
 });

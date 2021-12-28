@@ -1,101 +1,59 @@
 <template>
-  <a-layout :style="{ minHeight: '100vh' }">
-    <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-      <div class="logo" :style="{ textAlign: 'right', padding: '30px' }" />
-      <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
-        <a-menu-item key="1">
-          <user-outlined />
-          <span>nav 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <video-camera-outlined />
-          <span>nav 2</span>
-        </a-menu-item>
-        <a-menu-item key="3">
-          <upload-outlined />
-          <input type="submit" />登出
-        </a-menu-item>
-      </a-menu>
-    </a-layout-sider>
-    <a-layout>
-      <a-layout-header theme="dark" style="padding: 0">
-        <menu-unfold-outlined
-          v-if="collapsed"
-          class="trigger"
-          @click="() => (collapsed = !collapsed)"
-          :style="{
-            color: '#fff',
-          }"
-        />
-        <menu-fold-outlined
-          v-else
-          class="trigger"
-          @click="() => (collapsed = !collapsed)"
-          :style="{
-            color: '#fff',
-          }"
-        />
-      </a-layout-header>
-      <a-layout-content
-        :style="{
-          margin: '24px 16px',
-          padding: '24px',
-          background: '#fff',
-          minHeight: '280px',
-        }"
+  <a-layout id="components-layout-demo-fixed">
+    <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
+      <div class="logo" />
+      <a-menu
+        theme="dark"
+        mode="horizontal"
+        :default-selected-keys="['2']"
+        :style="{ lineHeight: '64px' }"
       >
-        Content
-      </a-layout-content>
-    </a-layout>
+        <a-menu-item key="1"> nav 1 </a-menu-item>
+        <a-menu-item key="2"> nav 2 </a-menu-item>
+        <a-menu-item key="3"> nav 3 </a-menu-item>
+        <a-menu-item key="Logout" @click="Logout">登出</a-menu-item>
+      </a-menu>
+    </a-layout-header>
+    <a-layout-content :style="{ padding: '0 50px', marginTop: '64px' }">
+      <a-breadcrumb :style="{ margin: '16px 0' }">
+        <a-breadcrumb-item>Home</a-breadcrumb-item>
+      </a-breadcrumb>
+      <div :style="{ background: '#fff', padding: '24px', minHeight: '380px' }">
+        <GetActivity />
+      </div>
+    </a-layout-content>
+    <a-layout-footer :style="{ textAlign: 'center' }">
+      Ant Design ©2018 Created by Ant UED
+    </a-layout-footer>
   </a-layout>
 </template>
-
 <script>
-import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-} from "@ant-design/icons-vue";
-import { defineComponent, ref } from "vue";
-export default defineComponent({
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import GetActivity from "../component/GetActivity.vue";
+export default {
   components: {
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
-    MenuUnfoldOutlined,
-    MenuFoldOutlined,
+    GetActivity,
   },
-
   setup() {
+    const store = useStore();
+    const router = useRouter();
+    const Logout = () => {
+      store.dispatch("Logout").then(() => router.replace("/Login"));
+    };
     return {
-      selectedKeys: ref(["1"]),
-      collapsed: ref(false),
+      Logout,
     };
   },
-});
+};
 </script>
+
 <style>
-#components-layout-demo-custom-trigger .trigger {
-  font-size: 18px;
-  line-height: 64px;
-  padding: 0 24px;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-#components-layout-demo-custom-trigger .trigger:hover {
-  color: #1890ff;
-}
-
-#components-layout-demo-custom-trigger .logo {
-  height: 32px;
-  background: rgba(255, 255, 255, 0.3);
-  margin: 16px;
-}
-
-.site-layout .site-layout-background {
-  background: #fff;
+#components-layout-demo-fixed .logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
 }
 </style>
