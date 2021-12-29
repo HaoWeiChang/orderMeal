@@ -14,7 +14,8 @@ const mutations = {
       const user = { id: id, name: name };
       state.userID = user.id;
       state.userName = user.name;
-      localStorage.setItem("user", JSON.stringify(user));
+      if (!localStorage.getItem("user"))
+        localStorage.setItem("user", JSON.stringify(user));
     } else {
       state.isLogin = false;
       state.userID = "";
@@ -39,7 +40,7 @@ const actions = {
       commit("updateState", {});
       return res.data.isLogin;
     }
-    if (!localStorage.getItem("user")) {
+    if (localStorage.getItem("user")) {
       commit("updateState", res.data);
     }
     return res.data.isLogin;

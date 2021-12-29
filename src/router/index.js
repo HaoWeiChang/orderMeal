@@ -25,11 +25,11 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
+  const isLogin = store.dispatch("user/LoginState");
   if (to.path === "/") {
     next();
     return;
   }
-  const isLogin = await store.dispatch("user/LoginState").then((res) => res);
   if (to.path === "/login" && localStorage.getItem("user")) {
     if (isLogin) {
       next("/");

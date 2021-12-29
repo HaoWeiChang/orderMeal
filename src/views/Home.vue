@@ -38,6 +38,7 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
+    store.dispatch("user/LoginState");
     const Logout = () => {
       store.dispatch("user/Logout").then(() => {
         router.replace("/login");

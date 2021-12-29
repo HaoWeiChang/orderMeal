@@ -1,10 +1,6 @@
 <template>
-  <a-button
-    class="editable-add-btn"
-    @click="handleAdd"
-    style="margin-bottom: 8px"
-    >新增活動</a-button
-  >
+  <a-button class="editable-add-btn" @click="handleAdd">新增活動</a-button>
+  <AddActivity />
   <a-table bordered :data-source="dataSource" :columns="columns" rowKey="id">
     <template #operation="{ record }">
       <a-popconfirm
@@ -17,10 +13,12 @@
   </a-table>
 </template>
 <script>
-import { computed, defineComponent, onBeforeMount, reactive, ref } from "vue";
+import { computed, defineComponent, reactive } from "vue";
 import { cloneDeep } from "lodash-es";
+import AddActivity from "./AddActivity.vue";
 import store from "../store";
 export default defineComponent({
+  components: { AddActivity },
   setup() {
     const columns = [
       {
@@ -54,13 +52,9 @@ export default defineComponent({
         },
       },
     ];
-    const dataSource = ref([]);
-    const { id } = store.getters["user/userData"];
-    const userID = id;
-    onBeforeMount(async () => {
-      await store.dispatch("activity/fetchActivity");
-      dataSource.value = store.getters["activity/GetActivityList"];
-    });
+    const dataSource = computed(() => store.state.activity.activityList);
+    const userID = computed(() => store.state.user.userID);
+    store.dispatch("activity/fetchActivity");
     const count = computed(() => dataSource.value.length + 1);
     const editableData = reactive({});
     const edit = (id) => {
@@ -68,7 +62,6 @@ export default defineComponent({
         dataSource.value.filter((item) => id === item.id)[0]
       );
     };
-
     const save = (id) => {
       Object.assign(
         dataSource.value.filter((item) => id === item.id)[0],
@@ -82,13 +75,7 @@ export default defineComponent({
     };
 
     const handleAdd = () => {
-      const newData = {
-        id: `${count.value}`,
-        name: `Edward King ${count.value}`,
-        age: 32,
-        address: `London, Park Lane no. ${count.value}`,
-      };
-      dataSource.value.push(newData);
+      dataSource.value.push();
     };
 
     return {
