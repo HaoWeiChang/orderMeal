@@ -1,18 +1,9 @@
 <template>
   <a-layout id="components-layout-demo-fixed">
     <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
-      <div class="logo" />
-      <a-menu
-        theme="dark"
-        mode="horizontal"
-        :default-selected-keys="['2']"
-        :style="{ lineHeight: '64px' }"
-      >
-        <a-menu-item key="1"> nav 1 </a-menu-item>
-        <a-menu-item key="2"> nav 2 </a-menu-item>
-        <a-menu-item key="3"> nav 3 </a-menu-item>
-        <a-menu-item key="Logout" @click="Logout">登出</a-menu-item>
-      </a-menu>
+      <div class="userIcon">
+        <UserIcon />
+      </div>
     </a-layout-header>
     <a-layout-content :style="{ padding: '0 50px', marginTop: '64px' }">
       <a-breadcrumb :style="{ margin: '16px 0' }">
@@ -28,35 +19,18 @@
   </a-layout>
 </template>
 <script>
-import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import UserIcon from "../component/Header/UserIcon.vue";
 import GetActivity from "../component/GetActivity.vue";
 export default {
   components: {
     GetActivity,
-  },
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    store.dispatch("user/LoginState");
-    const Logout = () => {
-      store.dispatch("user/Logout").then(() => {
-        router.replace("/login");
-      });
-    };
-    return {
-      Logout,
-    };
+    UserIcon,
   },
 };
 </script>
 
 <style>
-#components-layout-demo-fixed .logo {
-  width: 120px;
-  height: 31px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px 24px 16px 0;
-  float: left;
+#components-layout-demo-fixed .userIcon {
+  float: right;
 }
 </style>

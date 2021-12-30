@@ -15,6 +15,11 @@ const actions = {
     const res = await axios.get("/api/activity/");
     commit("SetActivity", res.data.result);
   },
+  PostActivity({ commit }, payload) {
+    console.log(payload);
+    commit();
+    return;
+  },
 };
 
 export default {

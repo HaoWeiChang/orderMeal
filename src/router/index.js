@@ -9,7 +9,7 @@ const routes = [
   },
   {
     path: "/login",
-    name: "Login",
+    name: "login",
     component: () => import("../views/Login.vue"),
   },
   {
@@ -24,23 +24,15 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-  const isLogin = store.dispatch("user/LoginState");
-  if (to.path === "/") {
-    next();
-    return;
-  }
-  if (to.path === "/login" && localStorage.getItem("user")) {
-    if (isLogin) {
-      next("/");
-      return;
+router.beforeEach(async (to) => {
+  const isLogin = await store.dispatch("user/LoginState");
+  if (to.path === "/login") {
+    if (!isLogin) {
+      return true;
     }
+    return router.replace("/");
   }
-  if (to.path !== "/login" && !isLogin) {
-    next("/login");
-    return;
-  }
-  next();
+  if (isLogin) return isLogin;
+  return router.replace("/login");
 });
-
 export default router;

@@ -37,43 +37,40 @@
   </div>
 </template>
 <script>
-import { defineComponent, ref, reactive, computed } from "vue";
+import { defineComponent, ref, reactive, computed, toRefs } from "vue";
 import moment from "moment";
 import { useStore } from "vuex";
 export default defineComponent({
   setup() {
-    /*Control Modal*/
-    const visible = ref(false);
-    const showModal = () => {
-      visible.value = true;
-    };
-    const handleOk = (e) => {
-      console.log(e);
-      visible.value = false;
-    };
     const store = useStore();
-
-    /*Get Store Option*/
-    const options = computed(() => store.state.stores.storeOptionList);
-
-    store.dispatch("stores/GetStoreList");
-
-    /*Get User Information */
-    const user = computed(() => store.state.user.userID);
+    const visible = ref(false);
     /*defualt payload*/
     const formState = reactive({
       subject: "",
-      store_id: null,
-      creator: user,
+      store_id: undefined,
+      createTime: "",
       endTimes: "",
       explain: "",
     });
 
+    /*Control Modal*/
+    const _formState = toRefs(formState);
+
+    const showModal = () => {
+      store.dispatch("stores/GetStoreList");
+      visible.value = true;
+    };
+
+    /*Get Store Option*/
+    const options = computed(() => store.state.stores.storeOptionList);
+
     /*defualt endTimes*/
-    const date = new Date();
-    const defualtHours = date.getHours() + 1;
-    const defualtMins = date.getMinutes();
-    formState.endTimes = ref(moment(`${defualtHours}:${defualtMins}`, "HH:mm"));
+    _formState.endTimes.value = moment();
+
+    const handleOk = () => {
+      store.dispatch("activity/PostActivity", formState);
+      visible.value = false;
+    };
 
     return {
       visible,
