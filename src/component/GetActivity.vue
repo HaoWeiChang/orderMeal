@@ -1,5 +1,4 @@
 <template>
-  <a-button class="editable-add-btn" @click="handleAdd">新增活動</a-button>
   <AddActivity />
   <a-table bordered :data-source="dataSource" :columns="columns" rowKey="id">
     <template #operation="{ record }">
