@@ -5,6 +5,7 @@
       <a-popconfirm
         v-if="record.userID == userID"
         @confirm="onDelete(record.id)"
+        rowkey="id"
       >
         <a>Delete</a>
       </a-popconfirm>
@@ -12,8 +13,7 @@
   </a-table>
 </template>
 <script>
-import { computed, defineComponent, reactive } from "vue";
-import { cloneDeep } from "lodash-es";
+import { computed, defineComponent } from "vue";
 import AddActivity from "./AddActivity.vue";
 import store from "../store";
 export default defineComponent({
@@ -45,48 +45,25 @@ export default defineComponent({
       },
       {
         title: "operation",
-        dataIndex: "operation",
+        dataIndex: "id",
         slots: {
           customRender: "operation",
         },
       },
     ];
-    const dataSource = computed(() => store.state.activity.activityList);
-    const userID = computed(() => store.state.user.userID);
+    const dataSource = computed(() => store.getters["activity/GetActivity"]);
     store.dispatch("activity/fetchActivity");
-    const count = computed(() => dataSource.value.length + 1);
-    const editableData = reactive({});
-    const edit = (id) => {
-      editableData[id] = cloneDeep(
-        dataSource.value.filter((item) => id === item.id)[0]
-      );
-    };
-    const save = (id) => {
-      Object.assign(
-        dataSource.value.filter((item) => id === item.id)[0],
-        editableData[id]
-      );
-      delete editableData[id];
-    };
 
+    const userID = store.state.user.userID;
     const onDelete = (id) => {
-      dataSource.value = dataSource.value.filter((item) => item.id !== id);
-    };
-
-    const handleAdd = () => {
-      dataSource.value.push();
+      store.dispatch("activity/DeleteActiviy", id);
     };
 
     return {
       columns,
       onDelete,
-      handleAdd,
       userID,
       dataSource,
-      editableData,
-      count,
-      edit,
-      save,
     };
   },
 });

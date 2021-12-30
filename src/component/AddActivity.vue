@@ -27,7 +27,7 @@
           </a-select>
         </a-form-item>
         <a-form-item label="結束時間">
-          <a-time-picker v-model:value="formState.endTimes" format="HH:mm" />
+          <a-time-picker v-model:value="formState.endTime" format="HH:mm" />
         </a-form-item>
         <a-form-item label="說明">
           <a-input v-model:value="formState.explain" type="textarea" />
@@ -48,8 +48,7 @@ export default defineComponent({
     const formState = reactive({
       subject: "",
       store_id: undefined,
-      createTime: "",
-      endTimes: "",
+      endTime: "",
       explain: "",
     });
 
@@ -64,11 +63,22 @@ export default defineComponent({
     /*Get Store Option*/
     const options = computed(() => store.state.stores.storeOptionList);
 
-    /*defualt endTimes*/
-    _formState.endTimes.value = moment();
+    /*defualt endTime*/
+    _formState.endTime.value = moment();
 
     const handleOk = () => {
-      store.dispatch("activity/PostActivity", formState);
+      const createTime = moment().format();
+      const { subject, store_id, endTime } = formState;
+      const unixtime = endTime.valueOf();
+      const _endTime = moment(unixtime).format();
+      const payload = {
+        subject: subject,
+        store_id: store_id,
+        creator: store.state.user.userID,
+        createtime: createTime,
+        endtime: _endTime,
+      };
+      store.dispatch("activity/PostActivity", payload);
       visible.value = false;
     };
 
