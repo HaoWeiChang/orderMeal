@@ -21,7 +21,13 @@ const actions = {
     commit("UpdateStoreList", res.data.result);
   },
 };
-const getters = {};
+const getters = {
+  GetStoreName: (state) => (store_id) => {
+    return state.storeList.filter((item) => {
+      if (item.id === store_id) return item.name;
+    });
+  },
+};
 
 export default {
   namespaced: true,

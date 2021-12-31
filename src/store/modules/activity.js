@@ -7,7 +7,7 @@ const mutations = {
     state.activityList = caches;
   },
   PushActivity(state, caches) {
-    state.activityList.push(caches);
+    state.activityList.unshift(caches);
   },
   FilterActivity(state, caches) {
     const activityList = state.activityList;
@@ -22,9 +22,11 @@ const actions = {
       .then((res) => commit("SetActivity", res.data.result));
   },
   async PostActivity({ commit }, payload) {
-    await axios
-      .post("/api/activity", payload)
-      .then(() => commit("PushActivity", payload));
+    let _payload = payload;
+    await axios.post("/api/activity", payload).then((res) => {
+      _payload.id = res.data.activityID;
+      commit("PushActivity", _payload);
+    });
   },
   async DeleteActiviy({ commit }, query) {
     console.log(query);

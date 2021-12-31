@@ -3,9 +3,8 @@
   <a-table bordered :data-source="dataSource" :columns="columns" rowKey="id">
     <template #operation="{ record }">
       <a-popconfirm
-        v-if="record.userID == userID"
+        v-if="record.user_id == userID"
         @confirm="onDelete(record.id)"
-        rowkey="id"
       >
         <a>Delete</a>
       </a-popconfirm>
@@ -21,34 +20,42 @@ export default defineComponent({
   setup() {
     const columns = [
       {
-        title: "subject",
+        title: "主題",
         dataIndex: "subject",
-        width: "30%",
-        slots: {
-          customRender: "subject",
-        },
+        align: "center",
       },
       {
-        title: "creator",
-        dataIndex: "creator",
+        title: "餐廳",
+        dataIndex: "storeName",
+        align: "center",
+        width: "15%",
+      },
+      {
+        title: "發起人",
+        dataIndex: "initiator",
+        align: "center",
+        width: "10%",
       },
       {
         title: "createtime",
         dataIndex: "createtime",
+        align: "center",
+        width: "15%",
       },
       {
         title: "endtime",
         dataIndex: "endtime",
-        slots: {
-          customRender: "endtime",
-        },
+        align: "center",
+        width: "15%",
       },
       {
         title: "operation",
-        dataIndex: "id",
+        dataIndex: "operation",
         slots: {
           customRender: "operation",
         },
+        align: "center",
+        width: "15%",
       },
     ];
     const dataSource = computed(() => store.getters["activity/GetActivity"]);

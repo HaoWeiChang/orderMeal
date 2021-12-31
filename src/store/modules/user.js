@@ -44,7 +44,14 @@ const actions = {
   },
 };
 
-const getters = {};
+const getters = {
+  GetUserName(state) {
+    return state.userName;
+  },
+  GetUserID(state) {
+    return state.userID;
+  },
+};
 
 export default {
   namespaced: true,
