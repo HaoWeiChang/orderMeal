@@ -1,16 +1,25 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import store from "../store/index";
+import Order from "../component/Order.vue";
+import GetActivity from "../component/GetActivity.vue";
 const routes = [
   {
     path: "/",
     name: "home",
     component: Home,
-    children: {
-      path: "/order",
-      name: "order",
-      component: {},
-    },
+    children: [
+      {
+        path: "",
+        name: "",
+        component: GetActivity,
+      },
+      {
+        path: "order",
+        name: "order",
+        component: Order,
+      },
+    ],
   },
   {
     path: "/login",
@@ -25,7 +34,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes,
 });
 

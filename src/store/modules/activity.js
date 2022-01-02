@@ -24,7 +24,7 @@ const actions = {
   async PostActivity({ commit }, payload) {
     let _payload = payload;
     await axios.post("/api/activity", payload).then((res) => {
-      _payload.id = res.data.activityID;
+      _payload.id = res.data.result.activityID;
       commit("PushActivity", _payload);
     });
   },

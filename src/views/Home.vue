@@ -4,27 +4,28 @@
       <div class="userIcon">
         <UserIcon />
       </div>
+      <MenuItem />
     </a-layout-header>
     <a-layout-content :style="{ padding: '0 50px', marginTop: '64px' }">
       <a-breadcrumb :style="{ margin: '16px 0' }">
         <a-breadcrumb-item>Home</a-breadcrumb-item>
       </a-breadcrumb>
-      <div :style="{ background: '#fff', padding: '24px', minHeight: '380px' }">
-        <GetActivity />
+      <div :style="{ background: '#fff', padding: '24px', minHeight: '800px' }">
+        <router-view> </router-view>
       </div>
     </a-layout-content>
     <a-layout-footer :style="{ textAlign: 'center' }">
-      Ant Design ©2018 Created by Ant UED
+      Ant Design ©2018 Created by Haowei
     </a-layout-footer>
   </a-layout>
 </template>
 <script>
 import UserIcon from "../component/Header/UserIcon.vue";
-import GetActivity from "../component/GetActivity.vue";
+import MenuItem from "../component/Header/MenuItem.vue";
 export default {
   components: {
-    GetActivity,
     UserIcon,
+    MenuItem,
   },
 };
 </script>

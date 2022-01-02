@@ -51,7 +51,7 @@ export default defineComponent({
         align: "center",
         width: "15%",
         slots: {
-          customRender: "endtime",
+          customRender: "createtime",
         },
       },
       {

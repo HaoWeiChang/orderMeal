@@ -7,9 +7,8 @@
     </a>
     <template #overlay>
       <a-menu>
-        <a-menu-item>
-          <a @click="Logout">登出</a>
-        </a-menu-item>
+        <a-menu-item>歷史紀錄</a-menu-item>
+        <a-menu-item @click="Logout">登出 </a-menu-item>
       </a-menu>
     </template>
   </a-dropdown>

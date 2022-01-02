@@ -1,8 +1,7 @@
 import axios from "axios";
 const state = () => ({
   storeOptionList: [],
-  storeList: [],
-  unitStore: {},
+  storeInfo: {},
   storeMeal: [],
 });
 const mutations = {
@@ -12,7 +11,10 @@ const mutations = {
       optionList.push({ value: element.id, label: element.name });
     });
     state.storeOptionList = optionList;
-    state.storeList = caches;
+  },
+  UpdateStore(state, caches) {
+    state.storeInfo = caches.result.storeInfo;
+    state.storeMeal = caches.result.storeMeal;
   },
 };
 const actions = {
@@ -20,6 +22,9 @@ const actions = {
     const res = await axios.get("/api/store");
     commit("UpdateStoreList", res.data.result);
   },
+  // async GetStore({ commit }, payload) {
+  //   await axios.get();
+  // },
 };
 const getters = {
   GetStoreName: (state) => (store_id) => {
