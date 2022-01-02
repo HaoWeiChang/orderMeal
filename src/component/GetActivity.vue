@@ -1,13 +1,21 @@
 <template>
   <AddActivity />
   <a-table bordered :data-source="dataSource" :columns="columns" rowKey="id">
+    <template #createtime="{ record }">{{
+      timeFormat(record.createtime)
+    }}</template>
+    <template #endtime="{ record }">{{ timeFormat(record.endtime) }}</template>
     <template #operation="{ record }">
-      <a-popconfirm
-        v-if="record.user_id == userID"
-        @confirm="onDelete(record.id)"
-      >
-        <a>Delete</a>
-      </a-popconfirm>
+      <a-space>
+        <a-button v-if="record.user_id !== null" type="primary">點餐</a-button>
+        <a-popconfirm
+          v-if="record.user_id == userID"
+          title="確定刪除?"
+          @confirm="onDelete(record.id)"
+        >
+          <a-button type="dashed" danger>刪除</a-button>
+        </a-popconfirm>
+      </a-space>
     </template>
   </a-table>
 </template>
@@ -15,6 +23,7 @@
 import { computed, defineComponent } from "vue";
 import AddActivity from "./AddActivity.vue";
 import store from "../store";
+import moment from "moment";
 export default defineComponent({
   components: { AddActivity },
   setup() {
@@ -37,16 +46,22 @@ export default defineComponent({
         width: "10%",
       },
       {
-        title: "createtime",
+        title: "建立時間",
         dataIndex: "createtime",
         align: "center",
         width: "15%",
+        slots: {
+          customRender: "endtime",
+        },
       },
       {
-        title: "endtime",
+        title: "結束時間",
         dataIndex: "endtime",
         align: "center",
         width: "15%",
+        slots: {
+          customRender: "endtime",
+        },
       },
       {
         title: "operation",
@@ -66,11 +81,17 @@ export default defineComponent({
       store.dispatch("activity/DeleteActiviy", id);
     };
 
+    const timeFormat = (time) => {
+      time = moment(time).utc();
+      return moment(time).format("YYYY-MM-DD HH:mm:ss");
+    };
+
     return {
       columns,
       onDelete,
       userID,
       dataSource,
+      timeFormat,
     };
   },
 });

@@ -14,15 +14,15 @@
         </a-input>
       </a-form-item>
       <a-form-item ref="password" label="密碼" name="password">
-        <a-input
+        <a-input-password
           v-model:value="payload.password"
           type="password"
-          placeholder="Password"
+          placeholder="input password"
         >
           <template #prefix
             ><LockOutlined style="color: rgba(0, 0, 0, 0.25)"
           /></template>
-        </a-input>
+        </a-input-password>
       </a-form-item>
       <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
         <a-button

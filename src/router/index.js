@@ -4,8 +4,13 @@ import store from "../store/index";
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     component: Home,
+    children: {
+      path: "/order",
+      name: "order",
+      component: {},
+    },
   },
   {
     path: "/login",
