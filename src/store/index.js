@@ -3,6 +3,7 @@ import { createLogger } from "vuex";
 import activity from "./modules/activity";
 import user from "./modules/user";
 import stores from "./modules/stores";
+import cart from "./modules/cart";
 
 const logger = createLogger({
   collapsed: false,
@@ -32,10 +33,11 @@ const logger = createLogger({
   },
   logActions: true, // 记录 action 日志
   logMutations: true, // 记录 mutation 日志
+  logState: true,
   logger: console, // 自定义 console 实现，默认为 `console`
 });
 
 export default createStore({
-  modules: { user, activity, stores },
+  modules: { user, activity, stores, cart },
   plugins: [logger],
 });

@@ -5,11 +5,11 @@
     v-model:selectedKeys="selectedKeys"
     :style="{ lineHeight: '64px' }"
   >
-    <a-menu-item v-if="userID != 4" key="1">建立店家</a-menu-item>
-    <a-menu-item v-if="userID != 4" key="2">新增菜單</a-menu-item>
+    <a-menu-item v-if="userName !== 'admin'" key="1">建立店家</a-menu-item>
+    <a-menu-item v-if="userName !== 'admin'" key="2">新增菜單</a-menu-item>
 
-    <a-menu-item v-if="userID == 4" key="1">餐廳審核</a-menu-item>
-    <a-menu-item v-if="userID == 4" key="2">統計資料</a-menu-item>
+    <a-menu-item v-if="userName == 'admin'" key="1">餐廳審核</a-menu-item>
+    <a-menu-item v-if="userName == 'admin'" key="2">統計資料</a-menu-item>
   </a-menu>
 </template>
 
@@ -20,8 +20,10 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const userID = computed(() => store.state.user.userID);
+    const userName = computed(() => store.state.user.userName);
     return {
       userID,
+      userName,
       selectedKeys: ref([""]),
     };
   },

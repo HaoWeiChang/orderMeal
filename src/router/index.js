@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import store from "../store/index";
-import Order from "../component/Order.vue";
-import GetActivity from "../component/GetActivity.vue";
+import Order from "../views/Order.vue";
+import GetActivity from "../views/GetActivity.vue";
 const routes = [
   {
     path: "/",
@@ -15,8 +15,8 @@ const routes = [
         component: GetActivity,
       },
       {
-        path: "order",
-        name: "order",
+        path: "activity/:id",
+        name: "activity",
         component: Order,
       },
     ],

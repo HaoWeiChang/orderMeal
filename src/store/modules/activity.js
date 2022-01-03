@@ -1,17 +1,23 @@
 import axios from "axios";
+
 const state = () => ({
   activityList: [],
+  activityInfo: null,
 });
+
 const mutations = {
-  SetActivity(state, caches) {
+  SetActivityList(state, caches) {
     state.activityList = caches;
   },
-  PushActivity(state, caches) {
+  PushActivityList(state, caches) {
     state.activityList.unshift(caches);
   },
-  FilterActivity(state, caches) {
+  FilterActivityList(state, caches) {
     const activityList = state.activityList;
     state.activityList = activityList.filter((item) => item.id !== caches);
+  },
+  SetActivity(state, caches) {
+    state.activityInfo = caches;
   },
 };
 
@@ -19,22 +25,27 @@ const actions = {
   async fetchActivity({ commit }) {
     await axios
       .get("/api/activity")
-      .then((res) => commit("SetActivity", res.data.result));
+      .then((res) => commit("SetActivityList", res.data.result));
   },
   async PostActivity({ commit }, payload) {
     let _payload = payload;
     await axios.post("/api/activity", payload).then((res) => {
       _payload.id = res.data.result.activityID;
-      commit("PushActivity", _payload);
+      commit("PushActivityList", _payload);
     });
   },
   async DeleteActiviy({ commit }, query) {
-    console.log(query);
     await axios
       .delete(`/api/activity?activityID=${query}`)
-      .then(() => commit("FilterActivity", query));
+      .then(() => commit("FilterActivityList", query));
+  },
+  async GetActivity({ dispatch, commit }, params) {
+    const res = await axios.get(`/api/activity/${params}`);
+    commit("SetActivity", res.data.result);
+    dispatch("stores/GetStore", res.data.result.store_id, { root: true });
   },
 };
+
 const getters = {
   GetActivity(state) {
     return state.activityList;

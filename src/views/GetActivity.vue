@@ -7,7 +7,12 @@
     <template #endtime="{ record }">{{ timeFormat(record.endtime) }}</template>
     <template #operation="{ record }">
       <a-space>
-        <a-button v-if="record.user_id !== null" type="primary">點餐</a-button>
+        <a-button
+          v-if="record.user_id !== null"
+          type="primary"
+          @click="ClickActivity(record.id)"
+          >點餐</a-button
+        >
         <a-popconfirm
           v-if="record.user_id == userID"
           title="確定刪除?"
@@ -21,12 +26,14 @@
 </template>
 <script>
 import { computed, defineComponent } from "vue";
-import AddActivity from "./AddActivity.vue";
+import { useRouter } from "vue-router";
+import AddActivity from "../component/Activity/AddActivity.vue";
 import store from "../store";
 import moment from "moment";
 export default defineComponent({
   components: { AddActivity },
   setup() {
+    const router = useRouter();
     const columns = [
       {
         title: "主題",
@@ -85,13 +92,16 @@ export default defineComponent({
       time = moment(time).utc();
       return moment(time).format("YYYY-MM-DD HH:mm:ss");
     };
-
+    const ClickActivity = (id) => {
+      router.push(`/activity/${id}`);
+    };
     return {
       columns,
       onDelete,
       userID,
       dataSource,
       timeFormat,
+      ClickActivity,
     };
   },
 });

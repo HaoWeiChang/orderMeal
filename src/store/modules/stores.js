@@ -13,8 +13,8 @@ const mutations = {
     state.storeOptionList = optionList;
   },
   UpdateStore(state, caches) {
-    state.storeInfo = caches.result.storeInfo;
-    state.storeMeal = caches.result.storeMeal;
+    state.storeInfo = caches.store;
+    state.storeMeal = caches.meal;
   },
 };
 const actions = {
@@ -22,9 +22,11 @@ const actions = {
     const res = await axios.get("/api/store");
     commit("UpdateStoreList", res.data.result);
   },
-  // async GetStore({ commit }, payload) {
-  //   await axios.get();
-  // },
+  async GetStore({ commit }, payload) {
+    if (payload === undefined) return Promise.reject("空值");
+    const res = await axios.get(`/api/store/meal/${payload}`);
+    commit("UpdateStore", res.data.result);
+  },
 };
 const getters = {
   GetStoreName: (state) => (store_id) => {
