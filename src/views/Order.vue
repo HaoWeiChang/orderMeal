@@ -1,5 +1,5 @@
 <template>
-  <a-button type="primary" shape="round" @click="backBtn">
+  <a-button class="backBtn" type="primary" shape="round" @click="backBtn">
     <template #icon>
       <RollbackOutlined />
       返回
@@ -48,4 +48,8 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+.backBtn {
+  float: right;
+}
+</style>

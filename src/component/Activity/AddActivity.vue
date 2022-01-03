@@ -1,44 +1,42 @@
 <template>
-  <div>
-    <a-button type="primary" @click="showModal" style="margin-bottom: 8px">
-      建立活動
-    </a-button>
-    <a-modal
-      v-model:visible="visible"
-      title="建立活動"
-      @ok="handleOk"
-      width="100%"
-      ok-text="建立"
-      cancel-text="取消"
-    >
-      <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
-        <a-form-item label="活動名稱" v-bind="validateInfos.subject">
-          <a-input v-model:value="formState.subject" />
-        </a-form-item>
-        <a-form-item label="商家" v-bind="validateInfos.store_id">
-          <a-select
-            labelInValue
-            placeholder="選擇商家"
-            :options="options"
-            @change="handleChange"
-          >
-          </a-select>
-        </a-form-item>
-        <a-form-item label="結束時間" v-bind="validateInfos.endTime">
-          <a-time-picker
-            v-model:value="formState.endTime"
-            :minute-step="15"
-            format="HH:mm"
-            :allowClear="false"
-            :inputReadOnly="true"
-          />
-        </a-form-item>
-        <a-form-item label="說明">
-          <a-input v-model:value="formState.explain" type="textarea" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
-  </div>
+  <a-button type="primary" @click="showModal" style="margin-bottom: 8px">
+    建立活動
+  </a-button>
+  <a-modal
+    v-model:visible="visible"
+    title="建立活動"
+    @ok="handleOk"
+    width="100%"
+    ok-text="建立"
+    cancel-text="取消"
+  >
+    <a-form :label-col="labelCol" :wrapper-col="wrapperCol">
+      <a-form-item label="活動名稱" v-bind="validateInfos.subject">
+        <a-input v-model:value="formState.subject" />
+      </a-form-item>
+      <a-form-item label="商家" v-bind="validateInfos.store_id">
+        <a-select
+          labelInValue
+          placeholder="選擇商家"
+          :options="options"
+          @change="handleChange"
+        >
+        </a-select>
+      </a-form-item>
+      <a-form-item label="結束時間" v-bind="validateInfos.endTime">
+        <a-time-picker
+          v-model:value="formState.endTime"
+          :minute-step="15"
+          format="HH:mm"
+          :allowClear="false"
+          :inputReadOnly="true"
+        />
+      </a-form-item>
+      <a-form-item label="說明">
+        <a-input v-model:value="formState.explain" type="textarea" />
+      </a-form-item>
+    </a-form>
+  </a-modal>
 </template>
 <script>
 import { defineComponent, ref, reactive, computed, toRefs } from "vue";
@@ -63,10 +61,29 @@ export default defineComponent({
     _formState.endTime.value = moment().add(1, "hour");
 
     let validEndtime = async (rule, value) => {
+      const nowTime = moment().valueOf();
+      let selectTime = value.valueOf();
+      const minTime = moment()
+        .hours(8)
+        .minutes(0)
+        .seconds(0)
+        .milliseconds(0)
+        .valueOf();
+      const maxTime = moment()
+        .hours(21)
+        .minutes(0)
+        .seconds(59)
+        .milliseconds(0)
+        .valueOf();
       const after30mins = moment().add(30, "minute").valueOf();
-      if (value.valueOf() < after30mins)
+
+      if (selectTime < nowTime) selectTime = moment(selectTime).add(1, "day");
+
+      if (selectTime < minTime || selectTime > maxTime)
+        return Promise.reject("僅開放當日8:00~21:00");
+      else if (selectTime < after30mins)
         return Promise.reject("請設定大於30分鐘");
-      return Promise.resolve();
+      else return Promise.resolve();
     };
     /* form rule */
     const rules = reactive({
@@ -126,9 +143,7 @@ export default defineComponent({
           store.dispatch("activity/PostActivity", payload);
           visible.value = false;
         })
-        .catch((err) => {
-          console.log("error", err);
-        });
+        .catch(() => {});
     };
 
     return {

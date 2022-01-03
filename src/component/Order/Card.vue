@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #f5f5f5; padding: 16px">
+  <div style="background: #f5f5f5; padding: 16px" v-if="mealLength !== 0">
     <a-row :gutter="[16, 16]">
       <a-col
         v-for="meal in mealList"
@@ -24,14 +24,15 @@ export default defineComponent({
     const store = useStore();
     const loading = ref(true);
     const mealList = ref(computed(() => store.state.stores.storeMeal));
-
+    const mealLength = mealList.value.length;
     setTimeout(() => {
       loading.value = !loading.value;
-    }, 2000);
+    }, 500);
 
     return {
       loading,
       mealList,
+      mealLength,
     };
   },
 });

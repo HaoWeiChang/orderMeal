@@ -1,5 +1,5 @@
 <template>
-  <AddActivity />
+  <AddActivity v-if="userID !== ''" />
   <a-table bordered :data-source="dataSource" :columns="columns" rowKey="id">
     <template #createtime="{ record }">{{
       timeFormat(record.createtime)
@@ -8,7 +8,7 @@
     <template #operation="{ record }">
       <a-space>
         <a-button
-          v-if="record.user_id !== null"
+          v-if="record.user_id !== '' && userID !== ''"
           type="primary"
           @click="ClickActivity(record.id)"
           >點餐</a-button
@@ -27,18 +27,21 @@
 <script>
 import { computed, defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 import AddActivity from "../component/Activity/AddActivity.vue";
-import store from "../store";
 import moment from "moment";
 export default defineComponent({
   components: { AddActivity },
   setup() {
     const router = useRouter();
+    const store = useStore();
     const columns = [
       {
         title: "主題",
         dataIndex: "subject",
         align: "center",
+        width: "15%",
+        hieght: "20%",
       },
       {
         title: "餐廳",
@@ -71,7 +74,7 @@ export default defineComponent({
         },
       },
       {
-        title: "operation",
+        title: "選項",
         dataIndex: "operation",
         slots: {
           customRender: "operation",

@@ -1,5 +1,6 @@
 <template>
   <a-menu
+    v-if="userID !== ''"
     theme="dark"
     mode="horizontal"
     v-model:selectedKeys="selectedKeys"

@@ -39,14 +39,18 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
-  const isLogin = await store.dispatch("user/LoginState");
+  store.dispatch("user/localStorageUserInfo");
   if (to.path === "/login") {
+    const isLogin = await store.dispatch("user/LoginState");
     if (!isLogin) {
       return true;
     }
     return router.replace("/");
+  } else if (to.path === "/") {
+    return true;
+  } else {
+    return true;
   }
-  if (isLogin) return isLogin;
-  return router.replace("/login");
 });
+
 export default router;

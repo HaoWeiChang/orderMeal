@@ -4,23 +4,22 @@
 
 <script>
 import axios from "axios";
-import store from "./store/index";
+import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { message } from "ant-design-vue";
 export default {
   setup() {
     const router = useRouter();
+    const store = useStore();
     axios.interceptors.response.use(
       (response) => response,
       async (error) => {
         if (error.response) {
           switch (error.response.status) {
-            case 401:
-              alert(error.response.data.message);
-              break;
             case 403:
-              store.commit("updateState", {});
-              alert(error.response.data.error);
-              router.replace("/login");
+              store.commit("user/updateState", null);
+              message.error(error.response.data.error);
+              router.replace("/");
               break;
           }
         }

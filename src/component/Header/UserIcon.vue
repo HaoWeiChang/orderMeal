@@ -1,5 +1,5 @@
 <template>
-  <a-dropdown>
+  <a-dropdown v-if="name !== ''">
     <a class="ant-dropdown-link" @click.prevent>
       <a-avatar style="color: #f56a00; background-color: #fde3cf">
         {{ FirstName }}
@@ -12,21 +12,33 @@
       </a-menu>
     </template>
   </a-dropdown>
+  <router-link v-else to="/login" replace>
+    <a>登入</a>
+  </router-link>
 </template>
 <script>
+import { message } from "ant-design-vue";
 import { useStore } from "vuex";
-import { defineComponent } from "vue";
+import { defineComponent, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 export default defineComponent({
   components: {},
   setup() {
     const store = useStore();
-    const name = store.state.user.userName;
-    const FirstName = name.substr(0, 1);
+    const route = useRoute();
+    const router = useRouter();
+    const name = computed(() => store.state.user.userName);
+    const FirstName = name.value.substr(0, 1);
     const Logout = () => {
-      store.dispatch("user/Logout");
+      store.dispatch("user/Logout").then((res) => {
+        message.success(res);
+        if (route.path === "/") router.go(0);
+        router.replace("/");
+      });
     };
     return {
       Logout,
+      name,
       FirstName,
     };
   },

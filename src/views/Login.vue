@@ -24,14 +24,8 @@
           /></template>
         </a-input-password>
       </a-form-item>
-      <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-        <a-button
-          type="primary"
-          @click="Login"
-          :disabled="payload.user === '' || payload.password === ''"
-        >
-          Log in
-        </a-button>
+      <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
+        <a-button type="primary" @click="Login"> Log in </a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -41,6 +35,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons-vue";
 import { reactive } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { message } from "ant-design-vue";
 export default {
   setup() {
     const router = useRouter();
@@ -49,13 +44,18 @@ export default {
       email: "",
       password: "",
     });
+
     const Login = async () => {
-      await store.dispatch("user/Login", payload).then(() => {
-        router.replace("/");
-      });
+      await store
+        .dispatch("user/Login", payload)
+        .then(() => {
+          router.replace("/");
+        })
+        .catch((err) => message.error(err));
     };
     return {
       payload,
+
       Login,
       labelCol: {
         span: 4,
@@ -74,11 +74,10 @@ export default {
 </script>
 <style>
 .container {
-  max-width: 500px;
-  margin: 0px auto;
-  overflow: auto;
-  justify-content: center;
-  min-height: 300px;
-  padding: 30px;
+  position: absolute;
+  width: 400px;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -100%);
 }
 </style>
