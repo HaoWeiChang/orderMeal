@@ -1,28 +1,76 @@
 // import axios from "axios";
 
 const state = () => ({
-  cartInfo: null,
-  cartContents: [],
+  storeID: null,
+  activityID: null,
+  items: [],
 });
 
 const mutations = {
   SetCartInfo(state, caches) {
-    state.cartInfo = caches.activityID;
+    state.storeID = caches.storeID;
+    state.activityID = caches.activityID;
   },
-  // AddToCartContents(state, caches) {},
+  PushItem(state, id) {
+    state.items.push({ id: id, num: 1 });
+  },
+  AddItem(state, id) {
+    const cartItem = state.items.find((item) => item.id === id);
+    cartItem.num++;
+  },
+  reduceItem(state, id) {
+    const cartItem = state.items.find((item) => item.id === id);
+    cartItem.num--;
+  },
+  removeItem(state, id) {
+    const cartItem = state.items.find((item) => item.id === id);
+    state.items.splice(cartItem, 1);
+  },
+  CleanCart(state) {
+    state.storeID = null;
+    state.activityID = null;
+    state.items = [];
+  },
 };
 
 const actions = {
-  AddMealToCart({ state, commit }, payload) {
-    if (state.cartInfo === null) {
-      commit("SetCartInfo", payload);
+  async DefaultCart({ commit }, payload) {
+    commit("SetCartInfo", payload);
+  },
+  async AddMealToCart({ state, commit }, id) {
+    const cartItem = state.items.find((item) => item.id === id);
+    if (!cartItem) {
+      commit("PushItem", id);
+    } else {
+      commit("AddItem", id);
     }
   },
-  reduceMealToCart() {},
-  removeMealFromCart() {},
+  reduceMealToCart({ state, commit }, id) {
+    const cartItem = state.items.find((item) => item.id === id);
+    if (cartItem === undefined) return Promise.reject("你好像沒加進購物出喔");
+    if (cartItem.num === 1) {
+      commit("removeItem", id);
+    } else commit("reduceItem", id);
+  },
+  async CleanCart({ commit }) {
+    commit("CleanCart");
+  },
 };
 
-const getters = {};
+const getters = {
+  GetcartItem: (state, getters, rootState) => {
+    return state.items.map(({ id, num }) => {
+      const item = rootState.stores.storeMeal.find((item) => item.id === id);
+      return {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        note: item.note,
+        num,
+      };
+    });
+  },
+};
 
 export default {
   namespaced: true,

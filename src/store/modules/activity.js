@@ -40,15 +40,21 @@ const actions = {
       .then(() => commit("FilterActivityList", query));
   },
   async GetActivity({ dispatch, commit }, params) {
-    const res = await axios.get(`/api/activity/${params}`);
-    commit("SetActivity", res.data.result);
-    dispatch("stores/GetStore", res.data.result.store_id, { root: true });
+    await axios.get(`/api/activity/${params}`).then((res) => {
+      commit("SetActivity", res.data.result);
+      dispatch("stores/GetStore", res.data.result.store_id, {
+        root: true,
+      });
+    });
   },
 };
 
 const getters = {
   GetActivity(state) {
     return state.activityList;
+  },
+  GetActivityInfo(state) {
+    return state.activityInfo;
   },
 };
 export default {

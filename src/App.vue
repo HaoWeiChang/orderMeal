@@ -18,6 +18,7 @@ export default {
           switch (error.response.status) {
             case 403:
               store.commit("user/updateState", null);
+              store.commit("cart/CleanCart");
               message.error(error.response.data.error);
               router.replace("/");
               break;

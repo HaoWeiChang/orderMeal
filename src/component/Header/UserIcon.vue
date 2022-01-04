@@ -30,10 +30,10 @@ export default defineComponent({
     const name = computed(() => store.state.user.userName);
     const FirstName = name.value.substr(0, 1);
     const Logout = () => {
+      store.commit("cart/CleanCart");
       store.dispatch("user/Logout").then((res) => {
         message.success(res);
-        if (route.path === "/") router.go(0);
-        router.replace("/");
+        if (route.path !== "/") router.replace("/");
       });
     };
     return {

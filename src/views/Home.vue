@@ -2,6 +2,8 @@
   <a-layout id="components-layout-demo-fixed">
     <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
       <div class="userIcon">
+        <CartButton />
+
         <UserIcon />
       </div>
       <MenuItem />
@@ -22,16 +24,21 @@
 <script>
 import UserIcon from "../component/Header/UserIcon.vue";
 import MenuItem from "../component/Header/MenuItem.vue";
+import CartButton from "../component/Header/CartButton.vue";
 export default {
   components: {
     UserIcon,
     MenuItem,
+    CartButton,
   },
 };
 </script>
 
 <style>
 #components-layout-demo-fixed .userIcon {
+  width: 120px;
+  display: flex;
+  justify-content: space-around;
   float: right;
 }
 </style>

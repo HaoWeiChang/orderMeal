@@ -8,13 +8,13 @@
     <template #operation="{ record }">
       <a-space>
         <a-button
-          v-if="record.user_id !== '' && userID !== ''"
+          v-if="userID !== ''"
           type="primary"
           @click="ClickActivity(record.id)"
           >點餐</a-button
         >
         <a-popconfirm
-          v-if="record.user_id == userID"
+          v-if="userID === record.user_id"
           title="確定刪除?"
           @confirm="onDelete(record.id)"
         >
@@ -86,7 +86,7 @@ export default defineComponent({
     const dataSource = computed(() => store.getters["activity/GetActivity"]);
     store.dispatch("activity/fetchActivity");
 
-    const userID = store.state.user.userID;
+    const userID = computed(() => store.state.user.userID);
     const onDelete = (id) => {
       store.dispatch("activity/DeleteActiviy", id);
     };

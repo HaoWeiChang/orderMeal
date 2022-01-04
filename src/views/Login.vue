@@ -49,7 +49,7 @@ export default {
       await store
         .dispatch("user/Login", payload)
         .then(() => {
-          router.replace("/");
+          router.push("/");
         })
         .catch((err) => message.error(err));
     };

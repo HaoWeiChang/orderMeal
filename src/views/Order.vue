@@ -28,20 +28,18 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-
     const activityID = route.params.id;
 
     const storeInfo = computed(() => store.state.stores.storeInfo);
 
-    const activityInfo = computed(() => store.state.activity.activityInfo);
+    store.dispatch("activity/GetActivity", activityID);
     const backBtn = () => {
+      store.commit("cart/CleanCart");
       router.push("/");
     };
-    store.dispatch("activity/GetActivity", activityID);
 
     return {
       storeInfo,
-      activityInfo,
       backBtn,
     };
   },
