@@ -42,13 +42,16 @@
       }"
     >
       <a-button style="margin-right: 8px" @click="cleanBtn()">清除</a-button>
-      <a-button type="primary" @click="summitBtn()">送出</a-button>
+      <a-button type="primary" @click="summitBtn()" :disabled="cartLength === 0"
+        >送出
+      </a-button>
     </div>
   </a-drawer>
 </template>
 <script>
 import { ShoppingCartOutlined } from "@ant-design/icons-vue";
 import { defineComponent, computed, ref } from "vue";
+import { message, Modal } from "ant-design-vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 export default defineComponent({
@@ -70,13 +73,25 @@ export default defineComponent({
       store.dispatch("cart/CleanCart");
     };
     const summitBtn = () => {
-      const playlod = {
-        user_id: store.state.user.userID,
-        activity_id: activityID,
-        cartList: store.getters["cart/GetcartItem"],
-      };
-      console.log(playlod);
+      Modal.confirm({
+        title: () => "確定送出嗎?",
+        onOk() {
+          const payload = {
+            user_id: store.state.user.userID,
+            activity_id: activityID,
+            meals: store.getters["cart/GetcartItem"],
+          };
+          store
+            .dispatch("cart/CommitCart", payload)
+            .then(() => message.success("成功送出"));
+          console.log(payload);
+        },
+        onCancel() {
+          visible.value = false;
+        },
+      });
     };
+
     return {
       visible,
       userID,

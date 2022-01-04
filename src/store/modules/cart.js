@@ -1,5 +1,7 @@
 // import axios from "axios";
 
+import axios from "axios";
+
 const state = () => ({
   storeID: null,
   activityID: null,
@@ -54,6 +56,11 @@ const actions = {
   },
   async CleanCart({ commit }) {
     commit("CleanCart");
+  },
+  async CommitCart({ commit }, payload) {
+    await axios
+      .post("/api/activity/order", payload)
+      .then(() => commit("CleanCart"));
   },
 };
 
