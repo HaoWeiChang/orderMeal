@@ -25,8 +25,7 @@ const mutations = {
     cartItem.num--;
   },
   removeItem(state, id) {
-    const cartItem = state.items.find((item) => item.id === id);
-    state.items.splice(cartItem, 1);
+    state.items = state.items.filter((item) => item.id !== id);
   },
   CleanCart(state) {
     state.storeID = null;

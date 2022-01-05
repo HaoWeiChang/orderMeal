@@ -15,6 +15,7 @@
             <a-button type="text" @click="reduceItem(meal.id)">
               <MinusOutlined />
             </a-button>
+            <h4>{{ meal.num }}</h4>
             <a-button type="text" @click="AddItem(meal.id)">
               <PlusOutlined />
             </a-button>
@@ -34,22 +35,34 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const loading = ref(true);
-    const mealList = computed(() => store.state.stores.storeMeal);
+    const mealList = ref(computed(() => store.state.stores.storeMeal));
     const mealLength = computed(() => store.state.stores.storeMeal.length);
-    const itemNum = ref(0);
     setTimeout(() => {
       loading.value = !loading.value;
     }, 250);
 
-    const AddItem = (id) => {
-      store
-        .dispatch("cart/AddMealToCart", id)
-        .then(() => message.success("新增成功"));
+    const AddItem = async (id) => {
+      await store.dispatch("cart/AddMealToCart", id).then(() => {
+        message.success("新增成功");
+        mealList.value.find((item) => {
+          if (item.id === id) {
+            item.num++;
+            console.log(item);
+          }
+        });
+      });
     };
     const reduceItem = (id) => {
       store
         .dispatch("cart/reduceMealToCart", id)
-        .then(() => message.success("移除成功"))
+        .then(() => {
+          message.success("移除成功");
+          mealList.value.find((item) => {
+            if (item.id === id) {
+              item.num--;
+            }
+          });
+        })
         .catch((err) => message.error(err));
     };
 
@@ -57,7 +70,6 @@ export default defineComponent({
       loading,
       AddItem,
       reduceItem,
-      itemNum,
       mealList,
       mealLength,
     };

@@ -65,7 +65,6 @@ export default defineComponent({
     const userID = computed(() => store.state.user.userID);
     const cartList = computed(() => store.getters["cart/GetcartItem"]);
     const cartLength = computed(() => store.state.cart.items.length);
-    const activityID = route.params.id;
     const showDrawer = () => {
       visible.value = true;
     };
@@ -78,7 +77,7 @@ export default defineComponent({
         onOk() {
           const payload = {
             user_id: store.state.user.userID,
-            activity_id: activityID,
+            activity_id: route.params.id,
             meals: store.getters["cart/GetcartItem"],
           };
           store

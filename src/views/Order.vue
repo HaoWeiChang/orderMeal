@@ -31,7 +31,11 @@ export default defineComponent({
     const activityID = route.params.id;
 
     const storeInfo = computed(() => store.state.stores.storeInfo);
-
+    window.addEventListener(
+      "popstate",
+      () => store.commit("cart/CleanCart"),
+      false
+    );
     store.dispatch("activity/GetActivity", activityID);
     const backBtn = () => {
       store.commit("cart/CleanCart");

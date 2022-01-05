@@ -13,7 +13,15 @@ const mutations = {
     state.storeOptionList = optionList;
   },
   UpdateStore(state, caches) {
-    state.storeMeal = caches.meal;
+    state.storeMeal = caches.meal.map((item) => {
+      return {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        note: item.note,
+        num: 0,
+      };
+    });
     state.storeInfo = caches.store;
   },
 };
