@@ -56,6 +56,17 @@ const actions = {
     const userInfo = JSON.parse(localStorage.getItem("account_basic_info"));
     commit("resetState", userInfo);
   },
+  async Register({ dispatch }, payload) {
+    await axios
+      .post("/api/user/account", payload)
+      .then((res) => {
+        if (res.status === 201) {
+          const { email, password } = payload;
+          dispatch("Login", { email, password });
+        }
+      })
+      .catch(() => Promise.reject("看來發生了一些錯誤"));
+  },
 };
 
 const getters = {

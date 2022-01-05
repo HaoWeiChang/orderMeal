@@ -23,6 +23,8 @@
             ><LockOutlined style="color: rgba(0, 0, 0, 0.25)"
           /></template>
         </a-input-password>
+        Or
+        <a href="/register">register now!</a>
       </a-form-item>
       <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
         <a-button type="primary" @click="Login"> Log in </a-button>
