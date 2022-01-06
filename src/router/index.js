@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import store from "../store/index";
 import Order from "../views/Order.vue";
 import GetActivity from "../views/GetActivity.vue";
+import OrderHistory from "../views/OrderHistory.vue";
 const routes = [
   {
     path: "/",
@@ -18,6 +19,11 @@ const routes = [
         path: "activity/:id",
         name: "activity",
         component: Order,
+      },
+      {
+        path: "activity/history/order",
+        name: "orderhistory",
+        component: OrderHistory,
       },
     ],
   },
@@ -45,6 +51,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   store.dispatch("user/localStorageUserInfo");
+  store.commit("cart/CleanCart");
   if (to.path === "/login") {
     const isLogin = await store.dispatch("user/LoginState");
     if (!isLogin) {

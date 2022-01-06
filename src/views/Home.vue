@@ -12,8 +12,8 @@
       <a-breadcrumb :style="{ margin: '16px 0' }">
         <a-breadcrumb-item>Home</a-breadcrumb-item>
       </a-breadcrumb>
-      <div :style="{ background: '#fff', padding: '24px', minHeight: '800px' }">
-        <router-view> </router-view>
+      <div :style="{ background: '#fff', padding: '24px', height: '790px' }">
+        <router-view></router-view>
       </div>
     </a-layout-content>
     <a-layout-footer :style="{ textAlign: 'center' }">

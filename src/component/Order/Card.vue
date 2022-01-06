@@ -9,7 +9,9 @@
       >
         <a-card :loading="loading" :bordered="false" hoverable>
           <h2>{{ meal.name }}</h2>
-          <p>{{ meal.note }}</p>
+          <p>
+            {{ meal.note || "一份" }}
+          </p>
           <h4>{{ meal.price }}元</h4>
           <template class="ant-card-actions" #actions>
             <a-button type="text" @click="reduceItem(meal.id)">
@@ -39,7 +41,7 @@ export default defineComponent({
     const mealLength = computed(() => store.state.stores.storeMeal.length);
     setTimeout(() => {
       loading.value = !loading.value;
-    }, 250);
+    }, 100);
 
     const AddItem = async (id) => {
       await store.dispatch("cart/AddMealToCart", id).then(() => {

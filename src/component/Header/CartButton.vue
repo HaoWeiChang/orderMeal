@@ -51,9 +51,9 @@
 <script>
 import { ShoppingCartOutlined } from "@ant-design/icons-vue";
 import { defineComponent, computed, ref } from "vue";
-import { message, Modal } from "ant-design-vue";
+import { Modal, notification } from "ant-design-vue";
 import { useStore } from "vuex";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 export default defineComponent({
   components: {
     ShoppingCartOutlined,
@@ -62,6 +62,7 @@ export default defineComponent({
     const visible = ref(false);
     const store = useStore();
     const route = useRoute();
+    const router = useRouter();
     const userID = computed(() => store.state.user.userID);
     const cartList = computed(() => store.getters["cart/GetcartItem"]);
     const cartLength = computed(() => store.state.cart.items.length);
@@ -80,10 +81,16 @@ export default defineComponent({
             activity_id: route.params.id,
             meals: store.getters["cart/GetcartItem"],
           };
-          store
-            .dispatch("cart/CommitCart", payload)
-            .then(() => message.success("成功送出"));
-          console.log(payload);
+          store.dispatch("cart/CommitCart", payload).then(() => {
+            visible.value = false;
+            router.replace("/");
+            notification["success"]({
+              message: "成功送出",
+              description: `送出的訂單都會顯示在歷史紀錄，
+              快去查看一下吧。`,
+              placement: "bottomRight",
+            });
+          });
         },
         onCancel() {
           visible.value = false;

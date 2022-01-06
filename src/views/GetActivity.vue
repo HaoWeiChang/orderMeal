@@ -83,7 +83,7 @@ export default defineComponent({
         width: "15%",
       },
     ];
-    const dataSource = computed(() => store.getters["activity/GetActivity"]);
+    const dataSource = computed(() => store.state.activity.activityList);
     store.dispatch("activity/fetchActivity");
 
     const userID = computed(() => store.state.user.userID);
@@ -92,7 +92,6 @@ export default defineComponent({
     };
 
     const timeFormat = (time) => {
-      time = moment(time).utc();
       return moment(time).format("YYYY-MM-DD HH:mm:ss");
     };
     const ClickActivity = (id) => {

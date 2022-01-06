@@ -3,6 +3,7 @@ import axios from "axios";
 const state = () => ({
   activityList: [],
   activityInfo: null,
+  orderHistory: [],
 });
 
 const mutations = {
@@ -18,6 +19,9 @@ const mutations = {
   },
   SetActivity(state, caches) {
     state.activityInfo = caches;
+  },
+  SetOrderHistory(state, caches) {
+    state.orderHistory = caches;
   },
 };
 
@@ -46,6 +50,11 @@ const actions = {
         root: true,
       });
     });
+  },
+  async GetOrderHistory({ commit }) {
+    await axios
+      .get("/api/activity/history/order")
+      .then((res) => commit("SetOrderHistory", res.data.result));
   },
 };
 

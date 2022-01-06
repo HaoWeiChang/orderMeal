@@ -1,56 +1,69 @@
 <template>
   <div class="container">
-    <a-form
-      layout="horizontal"
-      name="custom-validation"
-      ref="formRef"
-      :model="formState"
-      :rules="rules"
-      :label-col="labelCol"
-      :wrapper-col="wrapperCol"
-      @finish="submit"
-    >
-      <a-form-item has-feedback label="帳號" name="email">
-        <a-input-group>
-          <a-auto-complete
-            v-model:value="formState.email"
-            :options="[{ value: `${formState.email}@gmail.com` }]"
-            placeholder="請輸入email"
+    <a-card style="width: 450px">
+      <a-typography-title :level="3" style="text-align: center"
+        >註冊新用戶</a-typography-title
+      >
+      <a-form
+        layout="horizontal"
+        name="custom-validation"
+        ref="formRef"
+        :model="formState"
+        :rules="rules"
+        :label-col="labelCol"
+        :wrapper-col="wrapperCol"
+        @finish="submit"
+      >
+        <a-form-item has-feedback label="帳號" name="email">
+          <a-input-group>
+            <a-auto-complete
+              style="width: 233px"
+              v-model:value="formState.email"
+              :options="[{ value: `${formState.email}@gmail.com` }]"
+              placeholder="請輸入email"
+            />
+          </a-input-group>
+        </a-form-item>
+        <a-form-item has-feedback label="密碼" name="password">
+          <a-input
+            v-model:value="formState.password"
+            type="password"
+            autocomplete="off"
+            placeholder="請輸入密碼"
           />
-        </a-input-group>
-      </a-form-item>
-      <a-form-item has-feedback label="密碼" name="password">
-        <a-input
-          v-model:value="formState.password"
-          type="password"
-          autocomplete="off"
-        />
-      </a-form-item>
-      <a-form-item has-feedback label="確認密碼" name="checkPass">
-        <a-input
-          v-model:value="formState.checkPass"
-          type="password"
-          autocomplete="off"
-        />
-      </a-form-item>
-      <a-form-item has-feedback label="姓名" name="name">
-        <a-input
-          v-model:value="formState.name"
-          type="string"
-          autocomplete="off"
-        />
-      </a-form-item>
-      <a-form-item :wrapper-col="{ span: 14, offset: 10 }">
-        <a-button type="primary" html-type="submit">Submit</a-button>
-        <a-button style="margin-left: 10px" @click="resetForm">Reset</a-button>
-      </a-form-item>
-    </a-form>
+        </a-form-item>
+        <a-form-item has-feedback label="確認密碼" name="checkPass">
+          <a-input
+            v-model:value="formState.checkPass"
+            type="password"
+            autocomplete="off"
+            placeholder="請輸入密碼"
+          />
+        </a-form-item>
+        <a-form-item has-feedback label="姓名" name="name">
+          <a-input
+            v-model:value="formState.name"
+            type="string"
+            autocomplete="off"
+            placeholder="請輸入中文姓名"
+          />
+        </a-form-item>
+        <a-form-item :wrapper-col="{ span: 4, offset: 6 }">
+          或 <router-link :to="'/login'">登入</router-link>
+        </a-form-item>
+        <a-form-item :wrapper-col="{ span: 14, offset: 8 }">
+          <a-button type="primary" html-type="submit">註冊</a-button>
+          <a-button style="margin-left: 10px" @click="resetForm">清除</a-button>
+        </a-form-item>
+      </a-form>
+    </a-card>
   </div>
 </template>
 <script>
 import { defineComponent, reactive, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { message } from "ant-design-vue";
 export default defineComponent({
   setup() {
     const router = useRouter();
@@ -118,7 +131,7 @@ export default defineComponent({
           trigger: "change",
         },
       ],
-      pass: [
+      password: [
         {
           required: true,
           validator: validatePass,
@@ -140,10 +153,13 @@ export default defineComponent({
         },
       ],
     };
-    const submit = (values) => {
-      store.dispatch("user/Register", values).then(() => {
-        router.push("/");
-      });
+    const submit = async (values) => {
+      await store
+        .dispatch("user/Register", values)
+        .then(() => {
+          router.push("/");
+        })
+        .catch((error) => message.error(error));
     };
     const resetForm = () => {
       formRef.value.resetFields();
@@ -156,7 +172,7 @@ export default defineComponent({
       submit,
       resetForm,
       labelCol: {
-        span: 8,
+        span: 6,
       },
       wrapperCol: {
         span: 14,
@@ -167,10 +183,9 @@ export default defineComponent({
 </script>
 <style>
 .container {
-  position: absolute;
-  width: 350px;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -100%);
+  padding-top: 10%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
 }
 </style>

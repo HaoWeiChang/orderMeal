@@ -63,9 +63,9 @@ const actions = {
         if (res.status === 201) {
           const { email, password } = payload;
           dispatch("Login", { email, password });
-        }
+        } else return Promise.reject(res.data.error);
       })
-      .catch(() => Promise.reject("看來發生了一些錯誤"));
+      .catch((error) => Promise.reject(error));
   },
 };
 
