@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import store from "../store/index";
 import Order from "../views/Order.vue";
-import GetActivity from "../views/GetActivity.vue";
+import GetActivity from "../views/ActivityList.vue";
 import OrderHistory from "../views/OrderHistory.vue";
 const routes = [
   {

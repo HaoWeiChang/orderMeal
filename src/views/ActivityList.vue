@@ -6,16 +6,18 @@
     }}</template>
     <template #endtime="{ record }">{{ timeFormat(record.endtime) }}</template>
     <template #operation="{ record }">
-      <a-space>
+      <a-space v-if="userID !== ''">
+        <a-button type="primary" @click="ClickActivity(record.id)"
+          >檢視
+        </a-button>
         <a-button
-          v-if="userID !== ''"
-          type="primary"
+          v-if="record.historyID == null || record.historyID == undefined"
           @click="ClickActivity(record.id)"
-          >點餐</a-button
-        >
+          >點餐
+        </a-button>
         <a-popconfirm
           v-if="userID === record.user_id"
-          title="確定刪除?"
+          title="確定刪除活動?"
           @confirm="onDelete(record.id)"
         >
           <a-button type="dashed" danger>刪除</a-button>

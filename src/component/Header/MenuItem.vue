@@ -11,8 +11,6 @@
       v-for="menu in adminMenuList"
       v-bind:todo="menu"
       v-bind:key="menu.key"
-      mode="horizontal"
-      key:`menu.key`
     >
       <router-link :to="menu.path">{{ menu.title }}</router-link>
     </a-menu-item>
