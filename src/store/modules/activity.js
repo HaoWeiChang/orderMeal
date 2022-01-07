@@ -4,6 +4,8 @@ const state = () => ({
   activityList: [],
   activityInfo: null,
   orderHistory: [],
+  activityContent: [],
+  totalPay: 0,
 });
 
 const mutations = {
@@ -22,6 +24,9 @@ const mutations = {
   },
   SetOrderHistory(state, caches) {
     state.orderHistory = caches;
+  },
+  SetActivityContent(state, caches) {
+    state.activityContent = caches;
   },
 };
 
@@ -55,6 +60,11 @@ const actions = {
     await axios
       .get("/api/activity/history/order")
       .then((res) => commit("SetOrderHistory", res.data.result));
+  },
+  async GetAcitvityContent({ commit }, params) {
+    await axios
+      .get(`/api/activity/${params}/content`)
+      .then((res) => commit("SetActivityContent", res.data.result));
   },
 };
 

@@ -4,6 +4,7 @@ import store from "../store/index";
 import Order from "../views/Order.vue";
 import GetActivity from "../views/ActivityList.vue";
 import OrderHistory from "../views/OrderHistory.vue";
+import ActivityContent from "../views/ActivityContent.vue";
 const routes = [
   {
     path: "/",
@@ -21,6 +22,11 @@ const routes = [
         component: Order,
       },
       {
+        path: "activity/content/:id",
+        name: "content",
+        component: ActivityContent,
+      },
+      {
         path: "activity/history/order",
         name: "orderhistory",
         component: OrderHistory,
@@ -31,11 +37,6 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue"),
-  },
-  {
-    path: "/about",
-    name: "About",
-    component: () => import("../views/About.vue"),
   },
   {
     path: "/register",

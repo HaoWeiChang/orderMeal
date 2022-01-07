@@ -6,21 +6,19 @@
     </template>
   </a-button>
   <div>
-    <h1>{{ storeInfo.name }}</h1>
-    <h4>電話號碼:{{ storeInfo.phone }}</h4>
-    <h4>地址:{{ storeInfo.address }}</h4>
+    <!-- <h1>標題:{{ activity.subject }}</h1> -->
+    <h3>店家:{{ storeInfo.name }}</h3>
+    <p>地址:{{ storeInfo.address }} &emsp; 電話號碼:{{ storeInfo.phone }}</p>
   </div>
-  <Card />
 </template>
 <script>
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
 import { defineComponent, computed } from "vue";
 import { RollbackOutlined } from "@ant-design/icons-vue";
-import Card from "../component/Order/Card";
+
 export default defineComponent({
   components: {
-    Card,
     RollbackOutlined,
   },
   setup() {
@@ -28,14 +26,17 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const activityID = route.params.id;
-
+    const activity = computed(() => store.state.activity.activityInfo);
     const storeInfo = computed(() => store.state.stores.storeInfo);
+
     store.dispatch("activity/GetActivity", activityID);
+    // store.dispatch("activity/GetAcitvityContent", activityID);
     const backBtn = () => {
       router.push("/");
     };
 
     return {
+      activity,
       storeInfo,
       backBtn,
     };

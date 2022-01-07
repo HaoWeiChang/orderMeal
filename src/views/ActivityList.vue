@@ -7,14 +7,12 @@
     <template #endtime="{ record }">{{ timeFormat(record.endtime) }}</template>
     <template #operation="{ record }">
       <a-space v-if="userID !== ''">
-        <a-button type="primary" @click="ClickActivity(record.id)"
-          >檢視
-        </a-button>
         <a-button
           v-if="record.historyID == null || record.historyID == undefined"
           @click="ClickActivity(record.id)"
           >點餐
         </a-button>
+        <a-button type="primary" @click="Clickview(record.id)">檢視 </a-button>
         <a-popconfirm
           v-if="userID === record.user_id"
           title="確定刪除活動?"
@@ -99,6 +97,9 @@ export default defineComponent({
     const ClickActivity = (id) => {
       router.push(`/activity/${id}`);
     };
+    const Clickview = (id) => {
+      router.push(`/activity/content/${id}`);
+    };
     return {
       columns,
       onDelete,
@@ -106,6 +107,7 @@ export default defineComponent({
       dataSource,
       timeFormat,
       ClickActivity,
+      Clickview,
     };
   },
 });
