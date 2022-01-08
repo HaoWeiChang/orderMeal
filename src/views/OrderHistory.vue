@@ -14,7 +14,7 @@
         <a-button
           v-if="userID !== ''"
           type="primary"
-          @click="ClickActivity(record.id)"
+          @click="Clickview(record.activityID)"
           >檢視</a-button
         >
         <a-popconfirm
@@ -32,11 +32,14 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 import moment from "moment";
 export default {
   setup() {
     const store = useStore();
+
     const dataSource = computed(() => store.state.activity.orderHistory);
+    const router = useRouter();
     store.dispatch("activity/GetOrderHistory");
     const columns = [
       {
@@ -80,10 +83,15 @@ export default {
     const timeFormat = (time) => {
       return moment(time).format("YYYY-MM-DD HH:mm:ss");
     };
+    const Clickview = (id) => {
+      router.push(`/activity/${id}/content`);
+    };
+
     return {
       columns,
       dataSource,
       timeFormat,
+      Clickview,
     };
   },
 };

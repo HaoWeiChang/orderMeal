@@ -22,7 +22,7 @@ const routes = [
         component: Order,
       },
       {
-        path: "activity/content/:id",
+        path: "activity/:id/content",
         name: "content",
         component: ActivityContent,
       },

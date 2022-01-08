@@ -98,7 +98,7 @@ export default defineComponent({
       router.push(`/activity/${id}`);
     };
     const Clickview = (id) => {
-      router.push(`/activity/content/${id}`);
+      router.push(`/activity/${id}/content`);
     };
     return {
       columns,

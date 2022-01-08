@@ -26,7 +26,8 @@ const mutations = {
     state.orderHistory = caches;
   },
   SetActivityContent(state, caches) {
-    state.activityContent = caches;
+    state.activityContent = caches.activity;
+    state.totalPay = caches.totalPay;
   },
 };
 
