@@ -9,7 +9,7 @@
       <a-space v-if="userID !== ''">
         <a-button
           v-if="record.historyID == null || record.historyID == undefined"
-          @click="ClickActivity(record.id)"
+          @click="ClickOrder(record.id)"
           >點餐
         </a-button>
         <a-button type="primary" @click="Clickview(record.id)">檢視 </a-button>
@@ -94,11 +94,11 @@ export default defineComponent({
     const timeFormat = (time) => {
       return moment(time).format("YYYY-MM-DD HH:mm:ss");
     };
-    const ClickActivity = (id) => {
-      router.push(`/activity/${id}`);
+    const ClickOrder = (id) => {
+      router.push(`/activity/order/${id}`);
     };
     const Clickview = (id) => {
-      router.push(`/activity/${id}/content`);
+      router.push(`/activity/${id}`);
     };
     return {
       columns,
@@ -106,7 +106,7 @@ export default defineComponent({
       userID,
       dataSource,
       timeFormat,
-      ClickActivity,
+      ClickOrder,
       Clickview,
     };
   },

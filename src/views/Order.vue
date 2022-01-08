@@ -33,7 +33,7 @@ export default defineComponent({
     const storeInfo = computed(() => store.state.stores.storeInfo);
     store.dispatch("activity/GetActivity", activityID);
     const backBtn = () => {
-      router.push("/");
+      router.go(-1);
     };
 
     return {

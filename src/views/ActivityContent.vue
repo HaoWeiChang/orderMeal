@@ -34,7 +34,7 @@ export default defineComponent({
     store.dispatch("activity/GetActivity", activityID);
     store.dispatch("activity/GetAcitvityContent", activityID);
     const backBtn = () => {
-      router.push("/");
+      router.go(-1);
     };
 
     return {

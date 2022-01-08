@@ -1,5 +1,4 @@
 <template>
-  <AddActivity v-if="userID !== ''" />
   <a-table
     bordered
     :data-source="dataSource"
@@ -18,7 +17,7 @@
           >檢視</a-button
         >
         <a-popconfirm
-          v-if="userID === record.user_id"
+          v-if="record.activityValid === 0"
           title="確定刪除?"
           @confirm="onDelete(record.id)"
         >
@@ -37,7 +36,7 @@ import moment from "moment";
 export default {
   setup() {
     const store = useStore();
-
+    const userID = computed(() => store.state.user.userID);
     const dataSource = computed(() => store.state.activity.orderHistory);
     const router = useRouter();
     store.dispatch("activity/GetOrderHistory");
@@ -84,15 +83,10 @@ export default {
       return moment(time).format("YYYY-MM-DD HH:mm:ss");
     };
     const Clickview = (id) => {
-      router.push(`/activity/${id}/content`);
+      router.push(`/activity/${id}`);
     };
 
-    return {
-      columns,
-      dataSource,
-      timeFormat,
-      Clickview,
-    };
+    return { userID, columns, dataSource, timeFormat, Clickview };
   },
 };
 </script>

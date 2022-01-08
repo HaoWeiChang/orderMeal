@@ -13,17 +13,17 @@ const routes = [
     children: [
       {
         path: "",
-        name: "",
+        name: "activityList",
         component: GetActivity,
+      },
+      {
+        path: "activity/order/:id",
+        name: "order",
+        component: Order,
       },
       {
         path: "activity/:id",
         name: "activity",
-        component: Order,
-      },
-      {
-        path: "activity/:id/content",
-        name: "content",
         component: ActivityContent,
       },
       {
@@ -50,9 +50,9 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to) => {
+router.beforeEach(async (to, from) => {
   store.dispatch("user/localStorageUserInfo");
-  store.commit("cart/CleanCart");
+  if (from.name === "order") store.commit("cart/CleanCart");
   if (to.path === "/login") {
     const isLogin = await store.dispatch("user/LoginState");
     if (!isLogin) {

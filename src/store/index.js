@@ -39,5 +39,5 @@ const logger = createLogger({
 
 export default createStore({
   modules: { user, activity, stores, cart },
-  plugins: [logger],
+  plugins: process.env.NODE_ENV !== "production" ? [logger] : [],
 });
