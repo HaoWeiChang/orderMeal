@@ -17,7 +17,7 @@ const routes = [
         component: GetActivity,
       },
       {
-        path: "activity/order/:id",
+        path: "activity/:id/order",
         name: "order",
         component: Order,
       },
@@ -27,8 +27,13 @@ const routes = [
         component: ActivityContent,
       },
       {
+        path: "activity/history",
+        name: "activity_history",
+        component: {},
+      },
+      {
         path: "activity/history/order",
-        name: "orderhistory",
+        name: "order_history",
         component: OrderHistory,
       },
     ],

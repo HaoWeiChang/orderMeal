@@ -95,7 +95,7 @@ export default defineComponent({
       return moment(time).format("YYYY-MM-DD HH:mm:ss");
     };
     const ClickOrder = (id) => {
-      router.push(`/activity/order/${id}`);
+      router.push(`/activity/${id}/order`);
     };
     const Clickview = (id) => {
       router.push(`/activity/${id}`);

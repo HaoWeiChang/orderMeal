@@ -35,29 +35,47 @@
 <script>
 import { computed, defineComponent, ref } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
 export default defineComponent({
   setup() {
     const store = useStore();
+    const route = useRoute();
     const userID = computed(() => store.state.user.userID);
     const userName = computed(() => store.state.user.userName);
-    const selectMenu = ref([1]);
-    const menuList = ref([
+    const selectMenu = ref([]);
+    const menuList = [
       {
-        key: 1,
+        key: "1",
         title: "活動清單",
         path: "/",
       },
       {
-        key: 2,
-        title: "歷史紀錄",
+        key: "2",
+        title: "活動紀錄",
+        path: "/activity/history",
+      },
+      {
+        key: "3",
+        title: "餐點紀錄",
         path: "/activity/history/order",
       },
-    ]);
-
-    const adminMenuList = ref([
-      { key: 1, title: "使用者清單", path: "/" },
-      { key: 2, title: "統計資料", path: "/" },
-    ]);
+    ];
+    const adminMenuList = [
+      { key: "1", title: "使用者清單", path: "/user" },
+      { key: "2", title: "餐廳清單", path: "" },
+      { key: "3", title: "統計資料", path: "/" },
+    ];
+    switch (route.name) {
+      case "activityList":
+        selectMenu.value = ["1"];
+        break;
+      case "activity_history":
+        selectMenu.value = ["2"];
+        break;
+      case "order_history":
+        selectMenu.value = ["3"];
+        break;
+    }
 
     return {
       selectMenu,

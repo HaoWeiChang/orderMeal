@@ -3,8 +3,8 @@
 import axios from "axios";
 
 const state = () => ({
-  storeID: null,
-  activityID: null,
+  storeID: "",
+  activityID: "",
   items: [],
 });
 

@@ -13,17 +13,24 @@
   </a-button>
   <a-drawer
     title="點餐車"
+    width="320px"
     placement="right"
     :closable="false"
-    v-model:visible="visible"
+    :visible="visible"
+    @close="onClose"
   >
-    <div v-if="cartLength === 0">尚未點餐</div>
+    <template v-if="cartLength === 0">
+      <a-empty :description="'請進入活動選擇餐點'" />
+    </template>
     <a-list v-else size="large" bordered :data-source="cartList">
       <template #renderItem="{ item }">
         <a-list-item>
-          {{ item.name }} {{ item.price }}元<br />
-          {{ item.note }}<br />
-          數量:{{ item.num }}
+          {{ item.name }}<br />{{ item.note }}&ensp;{{ item.price }}元
+          <div style="float: right">
+            數量&nbsp;:&nbsp;
+            <span style="font-weight: bold">{{ item.num }}</span>
+            &nbsp;份
+          </div>
         </a-list-item>
       </template>
     </a-list>
@@ -50,7 +57,7 @@
 </template>
 <script>
 import { ShoppingCartOutlined } from "@ant-design/icons-vue";
-import { defineComponent, computed, ref } from "vue";
+import { defineComponent, computed, onMounted, ref } from "vue";
 import { Modal, notification } from "ant-design-vue";
 import { useStore } from "vuex";
 import { useRoute, useRouter } from "vue-router";
@@ -69,6 +76,12 @@ export default defineComponent({
     const showDrawer = () => {
       visible.value = true;
     };
+    const onClose = () => {
+      visible.value = false;
+    };
+    onMounted(() => {
+      visible.value = false;
+    });
     const cleanBtn = () => {
       store.dispatch("cart/CleanCart");
     };
@@ -104,6 +117,7 @@ export default defineComponent({
       cartList,
       cartLength,
       showDrawer,
+      onClose,
       cleanBtn,
       summitBtn,
     };

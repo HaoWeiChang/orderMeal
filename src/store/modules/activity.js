@@ -2,7 +2,7 @@ import axios from "axios";
 
 const state = () => ({
   activityList: [],
-  activityInfo: null,
+  activityInfo: {},
   orderHistory: [],
   activityContent: [],
   totalPay: 0,
@@ -66,6 +66,9 @@ const actions = {
     await axios
       .get(`/api/activity/${params}/content`)
       .then((res) => commit("SetActivityContent", res.data.result));
+  },
+  async UpdateActivityStates({ commit }, payload) {
+    await axios.patch("", payload).then(commit());
   },
 };
 

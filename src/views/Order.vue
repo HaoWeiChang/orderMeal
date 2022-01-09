@@ -6,6 +6,7 @@
     </template>
   </a-button>
   <div>
+    <h1>標題:{{ activity.subject }}</h1>
     <h1>{{ storeInfo.name }}</h1>
     <h4>電話號碼:{{ storeInfo.phone }}</h4>
     <h4>地址:{{ storeInfo.address }}</h4>
@@ -31,12 +32,15 @@ export default defineComponent({
     const activityID = route.params.id;
 
     const storeInfo = computed(() => store.state.stores.storeInfo);
+    const activity = computed(() => store.state.activity.activityInfo);
+
     store.dispatch("activity/GetActivity", activityID);
     const backBtn = () => {
       router.go(-1);
     };
 
     return {
+      activity,
       storeInfo,
       backBtn,
     };
