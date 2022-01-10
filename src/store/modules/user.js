@@ -30,7 +30,6 @@ const mutations = {
 
 const actions = {
   async Login({ commit }, payload) {
-    console.log(payload);
     return await axios.post("/api/auth/login", payload).then((res) => {
       if (res.status === 200) return Promise.reject(res.data.message);
       commit("updateState", res.data.result);

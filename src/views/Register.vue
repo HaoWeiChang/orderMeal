@@ -78,7 +78,6 @@ export default defineComponent({
     let validateEmail = async (rule, value) => {
       const regexp = /^([A-Za-z0-9])+@(gmail.com)$/;
       const Email = value.match(regexp);
-      console.log(Email);
       if (value === "") {
         return Promise.reject("請輸入Email");
       } else if (Email === null) {

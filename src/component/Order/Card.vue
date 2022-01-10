@@ -49,7 +49,6 @@ export default defineComponent({
         mealList.value.find((item) => {
           if (item.id === id) {
             item.num++;
-            console.log(item);
           }
         });
       });
