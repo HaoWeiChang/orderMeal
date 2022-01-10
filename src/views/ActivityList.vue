@@ -35,6 +35,8 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
+    const dataSource = computed(() => store.state.activity.activityList);
+    const userID = computed(() => store.state.user.userID);
     const columns = [
       {
         title: "主題",
@@ -83,10 +85,9 @@ export default defineComponent({
         width: "15%",
       },
     ];
-    const dataSource = computed(() => store.state.activity.activityList);
+
     store.dispatch("activity/fetchActivity");
 
-    const userID = computed(() => store.state.user.userID);
     const onDelete = (id) => {
       store.dispatch("activity/DeleteActiviy", id);
     };

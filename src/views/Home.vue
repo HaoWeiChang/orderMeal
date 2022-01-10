@@ -17,7 +17,7 @@
       </div>
     </a-layout-content>
     <a-layout-footer :style="{ textAlign: 'center' }">
-      Ant Design ©2018 Created by Haowei
+      Ant Design ©2018 Created by Antd
     </a-layout-footer>
   </a-layout>
 </template>

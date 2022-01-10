@@ -1,29 +1,23 @@
 <template>
-  <a-table
-    bordered
-    :data-source="dataSource"
-    :columns="columns"
-    rowKey="historyID"
-  >
-    <template #createtime="{ record }">{{
-      timeFormat(record.createtime)
-    }}</template>
+  <a-table bordered :data-source="dataSource" :columns="columns" rowKey="id">
+    <template #createtime="{ record }">
+      {{ timeFormat(record.createtime) }}
+    </template>
+    <template #endtime="{ record }">
+      {{ timeFormat(record.endtime) }}
+    </template>
     <template #operation="{ record }">
       <a-space>
         <a-button
           v-if="userID !== ''"
           type="primary"
-          @click="Clickview(record.activityID)"
+          @click="Clickview(record.id)"
           >檢視</a-button
         >
         <a-popconfirm
-          v-if="
-            record.activityValid === 0 &&
-            record.activityDelete === 0 &&
-            record.historyDelete === 0
-          "
+          v-if="record.valid === 0 && record.Isdelete === 0"
           title="確定刪除?"
-          @confirm="onDelete(record.historyID)"
+          @confirm="onDelete(record.id)"
         >
           <a-button type="dashed" danger>刪除</a-button>
         </a-popconfirm>
@@ -43,7 +37,7 @@ export default {
     const userID = computed(() => store.state.user.userID);
     const dataSource = computed(() => store.state.activity.historyList);
     const router = useRouter();
-    store.dispatch("activity/GetOrderHistory");
+    store.dispatch("activity/GetActivityHistory");
     const columns = [
       {
         title: "主題",
@@ -74,6 +68,15 @@ export default {
         },
       },
       {
+        title: "結束時間",
+        dataIndex: "endtime",
+        align: "center",
+        width: "15%",
+        slots: {
+          customRender: "endtime",
+        },
+      },
+      {
         title: "選項",
         dataIndex: "operation",
         slots: {
@@ -89,8 +92,8 @@ export default {
     const Clickview = (id) => {
       router.push(`/activity/${id}`);
     };
-    const onDelete = (historyID) => {
-      store.dispatch("activity/DeleteOrderHistory", historyID);
+    const onDelete = (id) => {
+      store.dispatch("activity/DeleteActivtyHistory", id);
     };
     return { userID, columns, dataSource, timeFormat, Clickview, onDelete };
   },

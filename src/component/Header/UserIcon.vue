@@ -7,11 +7,6 @@
     </a>
     <template #overlay>
       <a-menu>
-        <a-menu-item>
-          <router-link :to="'/activity/ownhistory'" :style="{ color: 'black' }"
-            >歷史紀錄</router-link
-          >
-        </a-menu-item>
         <a-menu-item @click="Logout">登出</a-menu-item>
       </a-menu>
     </template>

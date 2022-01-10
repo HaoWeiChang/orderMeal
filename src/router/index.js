@@ -5,6 +5,7 @@ import Order from "../views/Order.vue";
 import GetActivity from "../views/ActivityList.vue";
 import OrderHistory from "../views/OrderHistory.vue";
 import ActivityContent from "../views/ActivityContent.vue";
+import ActivityHistory from "../views/ActivityHistory.vue";
 const routes = [
   {
     path: "/",
@@ -29,7 +30,7 @@ const routes = [
       {
         path: "activity/history",
         name: "activity_history",
-        component: {},
+        component: ActivityHistory,
       },
       {
         path: "activity/history/order",

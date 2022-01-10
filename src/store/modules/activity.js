@@ -3,7 +3,7 @@ import axios from "axios";
 const state = () => ({
   activityList: [],
   activityInfo: {},
-  orderHistory: [],
+  historyList: [],
   activityContent: [],
   totalPay: 0,
 });
@@ -22,12 +22,25 @@ const mutations = {
   SetActivity(state, caches) {
     state.activityInfo = caches;
   },
-  SetOrderHistory(state, caches) {
-    state.orderHistory = caches;
+  SetHistory(state, caches) {
+    state.historyList = caches;
   },
   SetActivityContent(state, caches) {
     state.activityContent = caches.activity;
     state.totalPay = caches.totalPay;
+  },
+  UpdateActivityInfo_Valid(state, valid) {
+    state.activityInfo.valid = valid;
+  },
+  DeleteActivtyHistory(state, id) {
+    const activity = state.historyList.find((item) => item.id === id);
+    activity.Isdelete = 1;
+  },
+  DeleteOrderHistory(state, id) {
+    const orderhistory = state.historyList.find(
+      (item) => item.historyID === id
+    );
+    orderhistory.historyDelete = 1;
   },
 };
 
@@ -57,18 +70,35 @@ const actions = {
       });
     });
   },
-  async GetOrderHistory({ commit }) {
-    await axios
-      .get("/api/activity/history/order")
-      .then((res) => commit("SetOrderHistory", res.data.result));
-  },
   async GetAcitvityContent({ commit }, params) {
     await axios
       .get(`/api/activity/${params}/content`)
       .then((res) => commit("SetActivityContent", res.data.result));
   },
-  async UpdateActivityStates({ commit }, payload) {
-    await axios.patch("", payload).then(commit());
+  async GetActivityHistory({ commit }) {
+    await axios
+      .get("/api/activity/history")
+      .then((res) => commit("SetHistory", res.data.result));
+  },
+  async DeleteActivtyHistory({ commit }, query) {
+    await axios
+      .delete(`/api/activity?activityID=${query}`)
+      .then(commit("DeleteActivtyHistory", query));
+  },
+  async GetOrderHistory({ commit }) {
+    await axios
+      .get("/api/activity/history/order")
+      .then((res) => commit("SetHistory", res.data.result));
+  },
+  async DeleteOrderHistory({ commit }, query) {
+    await axios
+      .delete(`/api/activity/order?historyID=${query}`)
+      .then(() => commit("DeleteOrderHistory", query));
+  },
+  async validActivity({ commit }, payload) {
+    await axios
+      .patch(`/api/activity/${payload.activityID}/content`, payload)
+      .then(() => commit("UpdateActivityInfo_Valid", payload.valid));
   },
 };
 
