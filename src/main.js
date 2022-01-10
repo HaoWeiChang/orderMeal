@@ -5,6 +5,8 @@ import router from "./router";
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 const app = createApp(App);
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.BASEURL;
