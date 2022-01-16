@@ -64,6 +64,7 @@ export default defineComponent({
       { key: "1", title: "使用者清單", path: "/user" },
       { key: "2", title: "餐廳清單", path: "" },
       { key: "3", title: "統計資料", path: "/" },
+      { key: "4", title: "SQL", path: "/" },
     ];
     switch (route.name) {
       case "activityList":
