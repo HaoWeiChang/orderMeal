@@ -1,6 +1,6 @@
 <template>
   <a-button
-    v-if="userID !== ''"
+    v-if="userID !== '' && userID !== 6"
     type="primary"
     shape="round"
     :style="{ marginTop: '16px' }"

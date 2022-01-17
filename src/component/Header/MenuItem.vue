@@ -61,21 +61,31 @@ export default defineComponent({
       },
     ];
     const adminMenuList = [
-      { key: "1", title: "使用者清單", path: "/user" },
-      { key: "2", title: "餐廳清單", path: "" },
-      { key: "3", title: "統計資料", path: "/" },
-      { key: "4", title: "SQL", path: "/" },
+      { key: "1", title: "使用者清單", path: "/admin/userlist" },
+      { key: "2", title: "餐廳清單", path: "/admin/storelist" },
+      { key: "3", title: "SQL", path: "/admin/sqlcommand" },
     ];
-    switch (route.name) {
-      case "activityList":
-        selectMenu.value = ["1"];
-        break;
-      case "activity_history":
-        selectMenu.value = ["2"];
-        break;
-      case "order_history":
-        selectMenu.value = ["3"];
-        break;
+    if (userID.value === 6) {
+      switch (route.name) {
+        case "admin_userlist":
+          selectMenu.value = ["1"];
+          break;
+        case "admin_sqlcommand":
+          selectMenu.value = ["3"];
+          break;
+      }
+    } else {
+      switch (route.name) {
+        case "activityList":
+          selectMenu.value = ["1"];
+          break;
+        case "activity_history":
+          selectMenu.value = ["2"];
+          break;
+        case "order_history":
+          selectMenu.value = ["3"];
+          break;
+      }
     }
 
     return {

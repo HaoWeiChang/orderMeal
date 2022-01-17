@@ -40,6 +40,28 @@ const routes = [
     ],
   },
   {
+    path: "/admin",
+    name: "admin",
+    component: () => import("../views/Manager/AdminHome.vue"),
+    children: [
+      {
+        path: "userlist",
+        name: "admin_userlist",
+        component: () => import("../views/Manager/UsersList.vue"),
+      },
+      {
+        path: "storelist",
+        name: "admin_storelist",
+        component: () => import("../views/Manager/StoresList.vue"),
+      },
+      {
+        path: "sqlcommand",
+        name: "admin_sqlcommand",
+        component: () => import("../views/Manager/SQLCommand.vue"),
+      },
+    ],
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("../views/Login.vue"),
@@ -67,6 +89,8 @@ router.beforeEach(async (to, from) => {
     return router.replace("/");
   } else if (to.path === "/") {
     return true;
+  } else if (to.matched[0].path === "/admin") {
+    return store.state.user.userID === 6 ? true : router.replace("/");
   } else {
     return true;
   }
