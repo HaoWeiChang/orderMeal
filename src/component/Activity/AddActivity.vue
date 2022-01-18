@@ -70,8 +70,8 @@ export default defineComponent({
         .milliseconds(0)
         .valueOf();
       const maxTime = moment()
-        .hours(21)
-        .minutes(0)
+        .hours(23)
+        .minutes(59)
         .seconds(59)
         .milliseconds(0)
         .valueOf();
@@ -80,7 +80,7 @@ export default defineComponent({
       if (selectTime < nowTime) selectTime = moment(selectTime).add(1, "day");
 
       if (selectTime < minTime || selectTime > maxTime)
-        return Promise.reject("僅開放當日8:00~21:00");
+        return Promise.reject("僅開放當日8:00~23:59");
       else if (selectTime < after30mins)
         return Promise.reject("請設定大於30分鐘");
       else return Promise.resolve();

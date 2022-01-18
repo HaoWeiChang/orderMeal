@@ -8,11 +8,14 @@
       </div>
       <MenuItem />
     </a-layout-header>
-    <a-layout-content :style="{ padding: '0 50px', marginTop: '64px' }">
-      <a-breadcrumb :style="{ margin: '16px 0' }">
-        <a-breadcrumb-item>Home</a-breadcrumb-item>
-      </a-breadcrumb>
-      <div :style="{ background: '#fff', padding: '24px', minHeight: '790px' }">
+    <a-layout-content :style="{ marginTop: '64px' }">
+      <div
+        :style="{
+          background: '#fff',
+          padding: '24px',
+          minHeight: '700px',
+        }"
+      >
         <router-view></router-view>
       </div>
     </a-layout-content>
@@ -22,9 +25,9 @@
   </a-layout>
 </template>
 <script>
-import UserIcon from "../component/Header/UserIcon.vue";
-import MenuItem from "../component/Header/MenuItem.vue";
-import CartButton from "../component/Header/CartButton.vue";
+import UserIcon from "../../component/Header/UserIcon.vue";
+import MenuItem from "../../component/Header/MenuItem.vue";
+import CartButton from "../../component/Header/CartButton.vue";
 export default {
   components: {
     UserIcon,

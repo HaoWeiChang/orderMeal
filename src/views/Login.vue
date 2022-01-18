@@ -57,7 +57,8 @@ export default {
       await store
         .dispatch("user/Login", payload)
         .then(() => {
-          router.push("/");
+          if (store.state.user.userID === 6) router.push("/admin/userlist");
+          else router.push("/");
         })
         .catch((err) => message.error(err));
     };
