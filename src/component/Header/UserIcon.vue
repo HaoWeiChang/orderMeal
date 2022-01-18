@@ -18,7 +18,7 @@
 <script>
 import { message } from "ant-design-vue";
 import { useStore } from "vuex";
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 export default defineComponent({
   components: {},
@@ -26,8 +26,9 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    const name = computed(() => store.state.user.userName);
-    const FirstName = name.value.substr(0, 1);
+    const name = ref(computed(() => store.state.user.userName));
+    const FirstName = ref("");
+    FirstName.value = name.value.substr(0, 1);
     const Logout = () => {
       store.commit("cart/CleanCart");
       store.dispatch("user/Logout").then((res) => {

@@ -59,6 +59,11 @@ const routes = [
         name: "admin_sqlcommand",
         component: () => import("../views/Manager/SQLCommand.vue"),
       },
+      {
+        path: "storemenu/:id",
+        name: "admin_storemenu",
+        component: () => import("../views/Manager/StoreMenu.vue"),
+      },
     ],
   },
   {

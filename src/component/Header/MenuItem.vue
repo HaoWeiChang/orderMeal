@@ -70,6 +70,9 @@ export default defineComponent({
         case "admin_userlist":
           selectMenu.value = ["1"];
           break;
+        case "admin_storelist":
+          selectMenu.value = ["2"];
+          break;
         case "admin_sqlcommand":
           selectMenu.value = ["3"];
           break;

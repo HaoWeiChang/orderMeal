@@ -1,8 +1,12 @@
 <template>
-  <a-button type="primary" @click="showModal" :style="{ marginBottom: '10px' }"
+  <a-button
+    type="primary"
+    shape="round"
+    @click="showModal"
+    :style="{ marginBottom: '10px' }"
     >新增用戶</a-button
   >
-  <a-modal v-model:visible="visible" title="新增用戶" @ok="createbtn">
+  <a-modal v-model:visible="visible" title="新增用戶" @ok="createbtn()">
     <a-form layout="horizontal" :model="formState">
       <a-form-item label="用戶名稱">
         <a-input v-model:value="formState.name" placeholder="輸入姓名">

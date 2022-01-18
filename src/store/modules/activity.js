@@ -37,10 +37,11 @@ const mutations = {
     activity.Isdelete = 1;
   },
   DeleteOrderHistory(state, id) {
-    const orderhistory = state.historyList.find(
-      (item) => item.historyID === id
+    const orderhistory = state.historyList.filter(
+      (item) => item.historyID !== id
     );
-    orderhistory.historyDelete = 1;
+    // orderhistory.historyDelete = 1;
+    state.historyList = orderhistory;
   },
 };
 
