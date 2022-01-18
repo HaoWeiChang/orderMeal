@@ -6,7 +6,7 @@
     rowKey="historyID"
   >
     <template #createtime="{ record }">{{
-      timeFormat(record.createtime)
+      timeFormat(record.createTime)
     }}</template>
     <template #operation="{ record }">
       <a-space>

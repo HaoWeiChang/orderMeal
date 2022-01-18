@@ -1,10 +1,10 @@
 <template>
   <a-table bordered :data-source="dataSource" :columns="columns" rowKey="id">
-    <template #createtime="{ record }">
-      {{ timeFormat(record.createtime) }}
+    <template #createTime="{ record }">
+      {{ timeFormat(record.createTime) }}
     </template>
-    <template #endtime="{ record }">
-      {{ timeFormat(record.endtime) }}
+    <template #endTime="{ record }">
+      {{ timeFormat(record.endTime) }}
     </template>
     <template #operation="{ record }">
       <a-space>
@@ -60,20 +60,20 @@ export default {
       },
       {
         title: "建立時間",
-        dataIndex: "createtime",
+        dataIndex: "createTime",
         align: "center",
         width: "15%",
         slots: {
-          customRender: "createtime",
+          customRender: "createTime",
         },
       },
       {
         title: "結束時間",
-        dataIndex: "endtime",
+        dataIndex: "endTime",
         align: "center",
         width: "15%",
         slots: {
-          customRender: "endtime",
+          customRender: "endTime",
         },
       },
       {
