@@ -82,7 +82,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-
+const managerList = [6, 48];
 router.beforeEach(async (to, from) => {
   store.dispatch("user/localStorageUserInfo");
   if (from.name === "order") store.commit("cart/CleanCart");
@@ -95,7 +95,9 @@ router.beforeEach(async (to, from) => {
   } else if (to.path === "/") {
     return true;
   } else if (to.matched[0].path === "/admin") {
-    return store.state.user.userID === 6 ? true : router.replace("/");
+    return managerList.includes(store.state.user.userID)
+      ? true
+      : router.replace("/");
   } else {
     return true;
   }

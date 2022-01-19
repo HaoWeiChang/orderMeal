@@ -81,4 +81,18 @@ export default defineComponent({
 });
 </script>
 
-<style></style>
+<style>
+.ant-modal {
+  max-width: 50%;
+  top: 100px;
+  margin: 0 auto;
+}
+.ant-modal-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-modal-body {
+  flex: 1;
+}
+</style>

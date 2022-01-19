@@ -169,8 +169,8 @@ export default defineComponent({
 <style>
 .ant-modal {
   max-width: 50%;
-  top: 0;
-  margin: 0;
+  top: 100px;
+  margin: 0 auto;
 }
 .ant-modal-content {
   display: flex;
